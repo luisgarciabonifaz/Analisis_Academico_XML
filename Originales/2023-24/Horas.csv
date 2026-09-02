@@ -1,0 +1,283 @@
+CODIGO,NOMBRE_CAS,CICLO,HORAS
+0156,Inglés,ACTIVIDADES COMERCIALES,128
+1226,Marketing en la actividad comercial,ACTIVIDADES COMERCIALES,128
+1227,Gestión de un pequeño comercio,ACTIVIDADES COMERCIALES,176
+1228,Técnicas de almacén,ACTIVIDADES COMERCIALES,110
+1229,Gestión de compras,ACTIVIDADES COMERCIALES,96
+1230,Venta técnica,ACTIVIDADES COMERCIALES,132
+1231,Dinamización del punto de venta,ACTIVIDADES COMERCIALES,160
+1232,Procesos de venta,ACTIVIDADES COMERCIALES,160
+1233,Aplicaciones informáticas para el comercio,ACTIVIDADES COMERCIALES,128
+1234,Servicios de atención comercial,ACTIVIDADES COMERCIALES,88
+1235,Comercio electrónico,ACTIVIDADES COMERCIALES,110
+1236,Formación y orientación laboral,ACTIVIDADES COMERCIALES,96
+1237,Formación en centros de trabajo,ACTIVIDADES COMERCIALES,380
+CV0001,Inglés Técnico I-M / Horario reservado para la docencia en inglés,ACTIVIDADES COMERCIALES,64
+CV0002,Inglés Técnico II-M / Horario reservado para la docencia en inglés,ACTIVIDADES COMERCIALES,44
+TU01CF,Tutoría Primero,ACTIVIDADES COMERCIALES,32
+TU02CF,Tutoría Segundo,ACTIVIDADES COMERCIALES,32
+0369,Implantación de Sistemas Operativos,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,224
+0370,Planificación y Administración de Redes,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,192
+0371,Fundamentos de Hardware,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,96
+0372,Gestión de Bases de Datos,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,160
+0373,Lenguajes de marcas y sistemas de gestión de información,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,96
+0374,Administración de Sistemas Operativos,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,120
+0375,Servicios de Red e Internet,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,120
+0376,Implantación de Aplicaciones Web,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,100
+0377,Administración de Sistemas Gestores de Bases de Datos,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,60
+0378,Seguridad y Alta Disponibilidad,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,100
+0379,Proyecto de Administración de Sistemas Informáticos en Red,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,40
+0380,Formación y orientación laboral,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,96
+0381,Empresa e iniciativa emprendedora,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,60
+0382,Formación en centros de trabajo,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,400
+CV0003,Inglés Técnico I-S / Horario reservado para la docencia en inglés,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,96
+CV0004,Inglés Técnico II-S / Horario reservado para la docencia en inglés,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,40
+TU01CF,Tutoría Primero,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,32
+TU02CF,Tutoría Segundo,ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED,32
+0179,Inglés,ADMINISTRACIÓN Y FINANZAS (LOE),96
+0647,Gestión de la documentación jurídica y empresarial,ADMINISTRACIÓN Y FINANZAS (LOE),96
+0648,Recursos humanos y responsabilidad social corporativa,ADMINISTRACIÓN Y FINANZAS (LOE),64
+0649,Ofimática y proceso de la información,ADMINISTRACIÓN Y FINANZAS (LOE),192
+0650,Proceso integral de la actividad comercial,ADMINISTRACIÓN Y FINANZAS (LOE),160
+0651,Comunicación y atención al cliente,ADMINISTRACIÓN Y FINANZAS (LOE),160
+0652,Gestión de recursos humanos,ADMINISTRACIÓN Y FINANZAS (LOE),100
+0653,Gestión financiera,ADMINISTRACIÓN Y FINANZAS (LOE),120
+0654,Contabilidad y fiscalidad,ADMINISTRACIÓN Y FINANZAS (LOE),120
+0655,Gestión logística y comercial,ADMINISTRACIÓN Y FINANZAS (LOE),80
+0656,Simulación empresarial,ADMINISTRACIÓN Y FINANZAS (LOE),140
+0657,Proyecto de Administración y Finanzas,ADMINISTRACIÓN Y FINANZAS (LOE),40
+0658,Formación y orientación laboral,ADMINISTRACIÓN Y FINANZAS (LOE),96
+0660,Formación en centros de trabajo,ADMINISTRACIÓN Y FINANZAS (LOE),400
+CV0003,Inglés Técnico I-S / Horario reservado para la docencia en inglés,ADMINISTRACIÓN Y FINANZAS (LOE),96
+CV0004,Inglés Técnico II-S / Horario reservado para la docencia en inglés,ADMINISTRACIÓN Y FINANZAS (LOE),40
+TU01CF,Tutoría Primero,ADMINISTRACIÓN Y FINANZAS (LOE),32
+TU02CF,Tutoría Segundo,ADMINISTRACIÓN Y FINANZAS (LOE),32
+0171,Estructura del mercado turístico,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,96
+0172,Protocolo y relaciones públicas,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,128
+0173,Marketing turístico,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,128
+0179,Inglés,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,96
+0180,Segunda lengua extranjera,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,120
+0383,Destinos turísticos,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,160
+0384,Recursos turísticos,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,160
+0397,Gestión de productos turísticos,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,80
+0398,Venta de servicios turísticos,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,160
+0399,Dirección de entidades de intermedi,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,140
+0400,Proyecto de Agencias de viajes,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,40
+0401,Formación y orientación laboral,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,96
+0402,Empresa e iniciativa emprendedora,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,60
+0403,Formación en centros de trabajo,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,400
+CV0003,Inglés Técnico I-S / Horario reservado para la docencia en inglés,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,96
+CV0004,Inglés Técnico II-S / Horario reservado para la docencia en inglés,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,40
+TU01CF,Tutoría Primero,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,32
+TU02CF,Tutoría Segundo,AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS,32
+5021,Incidentes de ciberseguridad,CIBERSEGURIDAD EN ENTORNOS DE LAS TECNOLOGÍAS DE LA INFORMACIÓN,120
+5022,Bastionado de redes y sistemas,CIBERSEGURIDAD EN ENTORNOS DE LAS TECNOLOGÍAS DE LA INFORMACIÓN,210
+5023,Puesta en producción segura,CIBERSEGURIDAD EN ENTORNOS DE LAS TECNOLOGÍAS DE LA INFORMACIÓN,120
+5024,Análisis forense informático,CIBERSEGURIDAD EN ENTORNOS DE LAS TECNOLOGÍAS DE LA INFORMACIÓN,120
+5025,Hacking ético,CIBERSEGURIDAD EN ENTORNOS DE LAS TECNOLOGÍAS DE LA INFORMACIÓN,120
+5026,Normativa de ciberseguridad,CIBERSEGURIDAD EN ENTORNOS DE LAS TECNOLOGÍAS DE LA INFORMACIÓN,30
+0179,Inglés,COMERCIO INTERNACIONAL (LOE),96
+0622,Transporte internacional de mercancías,COMERCIO INTERNACIONAL (LOE),160
+0623,Gestión económica y financiera de la empresa,COMERCIO INTERNACIONAL (LOE),192
+0625,Logística de almacenamiento,COMERCIO INTERNACIONAL (LOE),128
+0627,Gestión administrativa del comercio internacional,COMERCIO INTERNACIONAL (LOE),192
+0822,Sistema de información de mercados,COMERCIO INTERNACIONAL (LOE),80
+0823,Marketing internacional,COMERCIO INTERNACIONAL (LOE),140
+0824,Negociación internacional,COMERCIO INTERNACIONAL (LOE),80
+0825,Financiación internacional,COMERCIO INTERNACIONAL (LOE),120
+0826,Medios de pago internacionales,COMERCIO INTERNACIONAL (LOE),80
+0827,Comercio digital internacional,COMERCIO INTERNACIONAL (LOE),60
+0828,Proyecto de comercio internacional,COMERCIO INTERNACIONAL (LOE),40
+0829,Formación y orientación laboral.,COMERCIO INTERNACIONAL (LOE),96
+0830,Formación en centros de trabajo,COMERCIO INTERNACIONAL (LOE),400
+CV0003,Inglés Técnico I-S / Horario reservado para la docencia en inglés,COMERCIO INTERNACIONAL (LOE),96
+CV0004,Inglés Técnico II-S / Horario reservado para la docencia en inglés,COMERCIO INTERNACIONAL (LOE),40
+TU01CF,Tutoría Primero,COMERCIO INTERNACIONAL (LOE),32
+TU02CF,Tutoría Segundo,COMERCIO INTERNACIONAL (LOE),32
+028001,Formación y orientación laboral,CUIDADOS AUXILIARES DE ENFERMERÍA,64
+028100,Relaciones en el equipo de trabajo,CUIDADOS AUXILIARES DE ENFERMERÍA,64
+028501,Operaciones administrativas y documentación sanitaria,CUIDADOS AUXILIARES DE ENFERMERÍA,64
+028502,Técnicas básicas de enfermería,CUIDADOS AUXILIARES DE ENFERMERÍA,352
+028503,Higiene del medio hospitalario y limpieza de material,CUIDADOS AUXILIARES DE ENFERMERÍA,160
+028504,Promoción de la salud y apoyo psicológico al paciente,CUIDADOS AUXILIARES DE ENFERMERÍA,128
+028505,Técnicas de ayuda odontológica/estomatológica,CUIDADOS AUXILIARES DE ENFERMERÍA,128
+028601,Formación en centros de trabajo,CUIDADOS AUXILIARES DE ENFERMERÍA,440
+TU01CF,Tutoría Primero,CUIDADOS AUXILIARES DE ENFERMERÍA,32
+TU02CF,Tutoría Segundo,CUIDADOS AUXILIARES DE ENFERMERÍA,32
+0373,Lenguajes de marcas y sistemas de gestión de información,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,96
+0483,Sistemas informáticos,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,160
+0484,Bases de Datos,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,160
+0485,Programación,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,256
+0486,Acceso a datos,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,120
+0487,Entornos de desarrollo,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,96
+0488,Desarrollo de interfaces,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,120
+0489,Programación multimedia y dispositivos móviles,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,100
+0490,Programación de servicios y procesos,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,60
+0491,Sistemas de gestión empresarial,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,100
+0492,Proyecto de desarrollo de aplicaciones multiplataforma,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,40
+0493,Formación y orientación laboral,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,96
+0494,Empresa e iniciativa emprendedora,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,60
+0495,Formación en centros de trabajo,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,400
+CV0003,Inglés Técnico I-S / Horario reservado para la docencia en inglés,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,96
+CV0004,Inglés Técnico II-S / Horario reservado para la docencia en inglés,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,40
+TU01CF,Tutoría Primero,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,32
+TU02CF,Tutoría Segundo,DESARROLLO DE APLICACIONES MULTIPLATAFORMA,32
+0373,Lenguajes de marcas y sistemas de gestión de información,DESARROLLO DE APLICACIONES WEB,96
+0483,Sistemas informáticos,DESARROLLO DE APLICACIONES WEB,160
+0484,Bases de Datos,DESARROLLO DE APLICACIONES WEB,160
+0485,Programación,DESARROLLO DE APLICACIONES WEB,256
+0487,Entornos de desarrollo,DESARROLLO DE APLICACIONES WEB,96
+0612,Desarrollo WEB en entorno cliente,DESARROLLO DE APLICACIONES WEB,140
+0613,Desarrollo WEB en entorno servidor,DESARROLLO DE APLICACIONES WEB,160
+0614,Despliegue de aplicaciones WEB,DESARROLLO DE APLICACIONES WEB,80
+0615,Diseño de interfaces WEB,DESARROLLO DE APLICACIONES WEB,120
+0616,Proyecto de desarrollo de aplicaciones WEB,DESARROLLO DE APLICACIONES WEB,40
+0617,Formación y orientación laboral,DESARROLLO DE APLICACIONES WEB,96
+0618,Empresa e iniciativa emprendedora,DESARROLLO DE APLICACIONES WEB,60
+0619,Formación en centros de trabajo,DESARROLLO DE APLICACIONES WEB,400
+CV0003,Inglés Técnico I-S / Horario reservado para la docencia en inglés,DESARROLLO DE APLICACIONES WEB,96
+CV0004,Inglés Técnico II-S / Horario reservado para la docencia en inglés,DESARROLLO DE APLICACIONES WEB,40
+TU01CF,Tutoría Primero,DESARROLLO DE APLICACIONES WEB,32
+TU02CF,Tutoría Segundo,DESARROLLO DE APLICACIONES WEB,32
+0156,Inglés,GESTIÓN ADMINISTRATIVA (LOE),96
+0437,Comunicación empresarial y atención al cliente,GESTIÓN ADMINISTRATIVA (LOE),160
+0438,Operaciones administrativa de compra-venta,GESTIÓN ADMINISTRATIVA (LOE),128
+0439,Empresa y administración,GESTIÓN ADMINISTRATIVA (LOE),96
+0440,Tratamiento informático de la información,GESTIÓN ADMINISTRATIVA (LOE),224
+0441,Técnica contable,GESTIÓN ADMINISTRATIVA (LOE),96
+0442,Operaciones administrativas de recursos humanos,GESTIÓN ADMINISTRATIVA (LOE),132
+0443,Tratamiento de la documentación contable,GESTIÓN ADMINISTRATIVA (LOE),154
+0446,Empresa en el aula,GESTIÓN ADMINISTRATIVA (LOE),176
+0448,Operaciones auxiliares de gestión de tesorería,GESTIÓN ADMINISTRATIVA (LOE),154
+0449,Formación y orientación laboral,GESTIÓN ADMINISTRATIVA (LOE),96
+0451,Formación en centros de trabajo,GESTIÓN ADMINISTRATIVA (LOE),380
+CV0001,Inglés Técnico I-M / Horario reservado para la docencia en inglés,GESTIÓN ADMINISTRATIVA (LOE),64
+CV0002,Inglés Técnico II-M / Horario reservado para la docencia en inglés,GESTIÓN ADMINISTRATIVA (LOE),44
+TU01CF,Tutoría Primero,GESTIÓN ADMINISTRATIVA (LOE),32
+TU02CF,Tutoría Segundo,GESTIÓN ADMINISTRATIVA (LOE),32
+0171,Estructura del mercado turístico,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,96
+0172,Protocolo y relaciones públicas,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,128
+0173,Marketing turístico,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,128
+0174,Dirección de alojamientos turístico,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,224
+0175,Gestión del departamento de pisos,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,120
+0176,Recepción y reservas,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,160
+0177,Recursos humanos en el alojamiento,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,96
+0178,Comercialización de eventos,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,100
+0179,Inglés,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,96
+0180,Segunda lengua extranjera,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,120
+0181,Proyecto de gestión de alojamientos,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,40
+0182,Formación y orientación laboral,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,96
+0183,Empresa e iniciativa emprendedora,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,60
+0184,Formación en centros de trabajo,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,400
+CV0003,Inglés Técnico I-S / Horario reservado para la docencia en inglés,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,96
+CV0004,Inglés Técnico II-S / Horario reservado para la docencia en inglés,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,40
+TU01CF,Tutoría Primero,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,32
+TU02CF,Tutoría Segundo,GESTIÓN DE ALOJAMIENTOS TURÍSTICOS,32
+0179,Inglés,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,96
+0623,Gestión económica y financiera de la empresa,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,192
+0625,Logística de almacenamiento,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,120
+0626,Logística de aprovisionamiento,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,100
+0926,Escaparatismo y diseño de espacios comerciales,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,80
+0927,Gestión de productos y promociones en el punto de venta,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,80
+0928,Organización de equipos de ventas,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,80
+0929,Técnicas de venta y negociación,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,100
+0930,Políticas de marketing,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,192
+0931,Marketing digital,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,160
+0932,Proyecto de gestión de ventas y espacios comerciales,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,40
+0933,Formación y orientación laboral,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,96
+0934,Formación en centros de trabajo,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,400
+1010,Investigación comercial,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,128
+CV0003,Inglés Técnico I-S / Horario reservado para la docencia en inglés,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,96
+CV0004,Inglés Técnico II-S / Horario reservado para la docencia en inglés,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,40
+TU01CF,Tutoría Primero,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,32
+TU02CF,Tutoría Segundo,GESTIÓN DE VENTAS Y ESPACIOS COMERCIALES,32
+0171,Estructura del mercado turístico,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",96
+0172,Protocolo y relaciones públicas,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",128
+0173,Marketing turístico,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",128
+0179,Inglés,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",96
+0180,Segunda lengua extranjera,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",120
+0383,Destinos turísticos,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",160
+0384,Recursos turísticos,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",160
+0385,Servicios de información turística,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",100
+0386,Procesos de guía y asistencia,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",140
+0387,Diseño de productos turísticos,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",140
+0388,"Proyecto de guía, información","GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",40
+0389,Formación y orientación laboral,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",96
+0390,Empresa e iniciativa emprendedora,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",60
+0391,Formación en centros de trabajo,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",400
+CV0003,Inglés Técnico I-S / Horario reservado para la docencia en inglés,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",96
+CV0004,Inglés Técnico II-S / Horario reservado para la docencia en inglés,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",40
+TU01CF,Tutoría Primero,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",32
+TU02CF,Tutoría Segundo,"GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS",32
+5071,Modelos de Inteligencia Artificial,INTELIGENCIA ARTIFICIAL Y BIG DATA,90
+5072,Sistemas de aprendizaje automático,INTELIGENCIA ARTIFICIAL Y BIG DATA,90
+5073,Programación de Inteligencia Artificial,INTELIGENCIA ARTIFICIAL Y BIG DATA,210
+5074,Sistemas de Big Data,INTELIGENCIA ARTIFICIAL Y BIG DATA,90
+5075,Big Data aplicado,INTELIGENCIA ARTIFICIAL Y BIG DATA,120
+1367,Gestión de muestras biológicas,LABORATORIO CLÍNICO Y BIOMÉDICO,160
+1368,Técnicas generales de laboratorio,LABORATORIO CLÍNICO Y BIOMÉDICO,224
+1369,Biología molecular y citogenética,LABORATORIO CLÍNICO Y BIOMÉDICO,192
+1370,Fisiopatología general,LABORATORIO CLÍNICO Y BIOMÉDICO,192
+1371,Análisis bioquímico,LABORATORIO CLÍNICO Y BIOMÉDICO,160
+1372,Técnicas de inmunodiagnóstico,LABORATORIO CLÍNICO Y BIOMÉDICO,80
+1373,Microbiología clínica,LABORATORIO CLÍNICO Y BIOMÉDICO,140
+1374,Técnicas de análisis hematológico,LABORATORIO CLÍNICO Y BIOMÉDICO,120
+1375,Proyecto de laboratorio clínico y biomédico,LABORATORIO CLÍNICO Y BIOMÉDICO,40
+1376,Formación y orientación laboral,LABORATORIO CLÍNICO Y BIOMÉDICO,96
+1377,Empresa e iniciativa emprendedora,LABORATORIO CLÍNICO Y BIOMÉDICO,60
+1378,Formación en centros de trabajo,LABORATORIO CLÍNICO Y BIOMÉDICO,400
+CV0003,Inglés Técnico I-S / Horario reservado para la docencia en inglés,LABORATORIO CLÍNICO Y BIOMÉDICO,96
+CV0004,Inglés Técnico II-S / Horario reservado para la docencia en inglés,LABORATORIO CLÍNICO Y BIOMÉDICO,40
+TU01CF,Tutoría Primero,LABORATORIO CLÍNICO Y BIOMÉDICO,32
+TU02CF,Tutoría Segundo,LABORATORIO CLÍNICO Y BIOMÉDICO,32
+0179,Inglés,MARKETING Y PUBLICIDAD,96
+0623,Gestión económica y financiera de la empresa,MARKETING Y PUBLICIDAD,192
+0930,Políticas de marketing,MARKETING Y PUBLICIDAD,192
+0931,Marketing digital,MARKETING Y PUBLICIDAD,160
+01010,Investigación comercial,MARKETING Y PUBLICIDAD,128
+1014,Formación y orientación laboral,MARKETING Y PUBLICIDAD,96
+CV0003,Inglés Técnico I-S / Horario reservado para la docencia en inglés,MARKETING Y PUBLICIDAD,96
+TU01CF,Tutoría Primero,MARKETING Y PUBLICIDAD,32
+243264,Proc. Fabr. Lentes Oftalmológicas,ÓPTICA DE ANTEOJERÍA,288
+243265,Diseño y Fabr. Monturas Ópticas,ÓPTICA DE ANTEOJERÍA,288
+243266,At. Cliente Establ. Prod. Ópticos,ÓPTICA DE ANTEOJERÍA,224
+243267,"Anat., Fisiopatol. y Amet. Oculares",ÓPTICA DE ANTEOJERÍA,160
+243270,Proc. Fabr. Lentes de Contacto,ÓPTICA DE ANTEOJERÍA,198
+243271,Montajes y Reparaciones Ópticas,ÓPTICA DE ANTEOJERÍA,308
+243601,Formación en centros de trabajo,ÓPTICA DE ANTEOJERÍA,380
+243602,Formación y orientación laboral,ÓPTICA DE ANTEOJERÍA,66
+243604,"Adm., Gest. y Comer. Peq. Empresa",ÓPTICA DE ANTEOJERÍA,88
+TU01CF,Tutoría Primero,ÓPTICA DE ANTEOJERÍA,32
+TU02CF,Tutoría Segundo,ÓPTICA DE ANTEOJERÍA,32
+0221,Montaje y mantenimiento de equipos,SISTEMAS MICROINFORMÁTICOS Y REDES,224
+0222,Sistemas operativos monopuesto,SISTEMAS MICROINFORMÁTICOS Y REDES,128
+0223,Aplicaciones ofimáticas,SISTEMAS MICROINFORMÁTICOS Y REDES,224
+0224,Sistemas operativos en red,SISTEMAS MICROINFORMÁTICOS Y REDES,176
+0225,Redes locales,SISTEMAS MICROINFORMÁTICOS Y REDES,224
+0226,Seguridad informática,SISTEMAS MICROINFORMÁTICOS Y REDES,110
+0227,Servicios en red,SISTEMAS MICROINFORMÁTICOS Y REDES,176
+0228,Aplicaciones web,SISTEMAS MICROINFORMÁTICOS Y REDES,88
+0229,Formación y orientación laboral,SISTEMAS MICROINFORMÁTICOS Y REDES,96
+0230,Empresa e iniciativa emprendedora,SISTEMAS MICROINFORMÁTICOS Y REDES,66
+0231,Formación en centros de trabajo,SISTEMAS MICROINFORMÁTICOS Y REDES,380
+CV0001,Inglés Técnico I-M / Horario reservado para la docencia en inglés,SISTEMAS MICROINFORMÁTICOS Y REDES,64
+CV0002,Inglés Técnico II-M / Horario reservado para la docencia en inglés,SISTEMAS MICROINFORMÁTICOS Y REDES,44
+TU01CF,Tutoría Primero,SISTEMAS MICROINFORMÁTICOS Y REDES,32
+TU02CF,Tutoría Segundo,SISTEMAS MICROINFORMÁTICOS Y REDES,32
+CV0010,Empresas simuladas. Herramientas informáticas de l...,COMERCIO INTERNACIONAL (LOE),30
+CV0008,Ofimática y proceso de la información en el Comerc...,COMERCIO INTERNACIONAL (LOE),128
+CV0009,Gestión portuaria,COMERCIO INTERNACIONAL (LOE),30
+1010,Investigación comercial,COMERCIO INTERNACIONAL (LOE),128
+TU02CF,Tutoría Segundo,COMERCIO INTERNACIONAL (LOE),32
+CV0004,Inglés Técnico II-S / Horario reservado para la do...,COMERCIO INTERNACIONAL (LOE),40
+1007,Diseño y elaboración de material de comunicación,COMERCIO INTERNACIONAL (LOE),160
+1008,Medios y soportes de comunicación,COMERCIO INTERNACIONAL (LOE),80
+1009,Relaciones públicas y organización de eventos de m...,COMERCIO INTERNACIONAL (LOE),80
+1011,Trabajo de campo en la investigación comercial,COMERCIO INTERNACIONAL (LOE),80
+1109,Lanzamiento de productos y servicios,COMERCIO INTERNACIONAL (LOE),80
+1110,"Atención al cliente, consumidor y usuario",COMERCIO INTERNACIONAL (LOE),80
+1012,Proyecto de marketing y publicidad,COMERCIO INTERNACIONAL (LOE),40
+1013,Formación en centros de trabajo,COMERCIO INTERNACIONAL (LOE),400
+
+
+

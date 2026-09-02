@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<centro codigo="46019660" denominacion="CIPFP MISLATA" curso="2024" fechaExportacion="17/07/2025 12:02:33" version="1.0">
+  <cursos>
+    <curso ensenanza="5" codigo="3228410892" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3227301117"/>
+    <curso ensenanza="5" codigo="3228413080" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3226406297"/>
+    <curso ensenanza="5" codigo="3228413382" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3226408017"/>
+    <curso ensenanza="5" codigo="3225429691" abreviatura="472143" nombre_cas="GESTIÓN ADMINISTRATIVA (LFP)" nombre_val="GESTIÓ ADMINISTRATIVA (LFP)" padre="3162079674"/>
+    <curso ensenanza="5" codigo="3225431334" abreviatura="441144" nombre_cas="ADMINISTRACIÓN Y FINANZAS (LFP)" nombre_val="ADMINISTRACIÓ I FINANCES (LFP)" padre="3162079737"/>
+    <curso ensenanza="5" codigo="3225447205" abreviatura="925143" nombre_cas="ACTIVIDADES COMERCIALES (LFP)" nombre_val="ACTIVITATS COMERCIALS (LFP)" padre="3162077459"/>
+    <curso ensenanza="5" codigo="3226405353" abreviatura="707143" nombre_cas="SISTEMAS MICROINFORMÁTICOS Y REDES (LFP)" nombre_val="SISTEMES MICROINFORMÀTICS I XARXES (LFP)" padre="3162079904"/>
+    <curso ensenanza="5" codigo="3228410357" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3227299518"/>
+    <curso ensenanza="5" codigo="3225450098" abreviatura="449144" nombre_cas="COMERCIO INTERNACIONAL (LFP)" nombre_val="COMERÇ INTERNACIONAL (LFP)" padre="3162077526"/>
+    <curso ensenanza="5" codigo="3225452276" abreviatura="222144" nombre_cas="MARKETING Y PUBLICIDAD (LFP)" nombre_val="MÀRQUETING I PUBLICITAT LFP)" padre="3162077526"/>
+    <curso ensenanza="5" codigo="3226407569" abreviatura="836144" nombre_cas="DESARROLLO DE APLICACIONES MULTIPLATAFORMA (LFP)" nombre_val="DESENVOLUPAMENT D&apos;APLICACIONS MULTIPLATAFORMA (LFP)" padre="3162079953"/>
+    <curso ensenanza="5" codigo="3226408017" abreviatura="845144" nombre_cas="DESARROLLO DE APLICACIONES WEB (LFP)" nombre_val="DESENVOLUPAMENT D&apos;APLICACIONS WEB (LFP)" padre="3162079953"/>
+    <curso ensenanza="5" codigo="3226420481" abreviatura="977144" nombre_cas="LABORATORIO CLÍNICO Y BIOMÉDICO (LFP)" nombre_val="LABORATORI CLÍNIC I BIOMÈDIC (LFP)" padre="3162075463"/>
+    <curso ensenanza="5" codigo="3228379385" abreviatura="1CFM" nombre_cas="Primero" nombre_val="Primer" padre="3225429691"/>
+    <curso ensenanza="5" codigo="3228381273" abreviatura="1CFM" nombre_cas="Primero" nombre_val="Primer" padre="3225447205"/>
+    <curso ensenanza="5" codigo="3228406545" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3225450098"/>
+    <curso ensenanza="5" codigo="3227299518" abreviatura="827144" nombre_cas="AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS (LFP)" nombre_val="AGÈNCIES DE VIATGES I GESTIÓ D&apos;ESDEVENIMENTS (LFP)" padre="3162075939"/>
+    <curso ensenanza="5" codigo="3228404816" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3225431334"/>
+    <curso ensenanza="5" codigo="3162078271" abreviatura="129" nombre_cas="FABRICACIÓN MECÁNICA" nombre_val="FABRICACIÓ MECÀNICA" padre=" "/>
+    <curso ensenanza="5" codigo="3162079790" abreviatura="2CFS" nombre_cas="Segundo" nombre_val="Segon" padre="3162079788"/>
+    <curso ensenanza="5" codigo="3162079797" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3162079788"/>
+    <curso ensenanza="5" codigo="3162079854" abreviatura="190" nombre_cas="INFORMÁTICA Y COMUNICACIONES" nombre_val="INFORMÀTICA I COMUNICACIONS" padre=" "/>
+    <curso ensenanza="5" codigo="3162079856" abreviatura="CE" nombre_cas="CURSO ESPECIALIZACIÓN" nombre_val="CURS ESPECIALITZACIÓ" padre="3162079854"/>
+    <curso ensenanza="5" codigo="3162079858" abreviatura="A2510S" nombre_cas="CIBERSEGURIDAD EN ENTORNOS DE LAS TECNOLOGÍAS DE LA INFORMACIÓN" nombre_val="CIBERSEGURETAT EN ENTORNS DE LES TECNOLOGIES DE LA INFORMACIÓ" padre="3162079856"/>
+    <curso ensenanza="5" codigo="3162079860" abreviatura="1CES" nombre_cas="Primero CE" nombre_val="Primer CE" padre="3162079858"/>
+    <curso ensenanza="5" codigo="3162079872" abreviatura="A3310S" nombre_cas="INTELIGENCIA ARTIFICIAL Y BIG DATA" nombre_val="INTEL·LIGÈNCIA ARTIFICIAL I BIG DATA" padre="3162079856"/>
+    <curso ensenanza="5" codigo="3162079874" abreviatura="1CES" nombre_cas="Primero CE" nombre_val="Primer CE" padre="3162079872"/>
+    <curso ensenanza="5" codigo="3162079904" abreviatura="GM" nombre_cas="GRADO MEDIO" nombre_val="GRAU MITJÀ" padre="3162079854"/>
+    <curso ensenanza="5" codigo="3162079927" abreviatura="707103" nombre_cas="SISTEMAS MICROINFORMÁTICOS Y REDES" nombre_val="SISTEMES MICROINFORMÀTICS I XARXES" padre="3162079904"/>
+    <curso ensenanza="5" codigo="3162079929" abreviatura="1CFM" nombre_cas="Primero" nombre_val="Primer" padre="3162079927"/>
+    <curso ensenanza="5" codigo="3162079936" abreviatura="2CFM" nombre_cas="Segundo" nombre_val="Segon" padre="3162079927"/>
+    <curso ensenanza="5" codigo="3162079953" abreviatura="GS" nombre_cas="GRADO SUPERIOR" nombre_val="GRAU SUPERIOR" padre="3162079854"/>
+    <curso ensenanza="5" codigo="3162079955" abreviatura="845104" nombre_cas="DESARROLLO DE APLICACIONES WEB" nombre_val="DESENROTLLAMENT D&apos;APLICACIONS WEB" padre="3162079953"/>
+    <curso ensenanza="5" codigo="3162079957" abreviatura="2CFS" nombre_cas="Segundo" nombre_val="Segon" padre="3162079955"/>
+    <curso ensenanza="5" codigo="3162079965" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3162079955"/>
+    <curso ensenanza="5" codigo="3162078516" abreviatura="GS" nombre_cas="GRADO SUPERIOR" nombre_val="GRAU SUPERIOR" padre="3162078271"/>
+    <curso ensenanza="5" codigo="3162079984" abreviatura="836104" nombre_cas="DESARROLLO DE APLICACIONES MULTIPLATAFORMA" nombre_val="DESENROTLLAMENT D&apos;APLICACIONS MULTIPLATAFORMA" padre="3162079953"/>
+    <curso ensenanza="5" codigo="3162079986" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3162079984"/>
+    <curso ensenanza="5" codigo="3162079993" abreviatura="2CFS" nombre_cas="Segundo" nombre_val="Segon" padre="3162079984"/>
+    <curso ensenanza="5" codigo="3162080054" abreviatura="829104" nombre_cas="ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED" nombre_val="ADMINISTRACIÓ DE SISTEMES INFORMÀTICS EN XARXA" padre="3162079953"/>
+    <curso ensenanza="5" codigo="3228406931" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3225452276"/>
+    <curso ensenanza="5" codigo="3162078582" abreviatura="261064" nombre_cas="ÓPTICA DE ANTEOJERÍA" nombre_val="ÒPTICA I PROTÈTICA OCULAR" padre="3162078516"/>
+    <curso ensenanza="5" codigo="3162078584" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3162078582"/>
+    <curso ensenanza="5" codigo="3162078591" abreviatura="2CFS" nombre_cas="Segundo" nombre_val="Segon" padre="3162078582"/>
+    <curso ensenanza="5" codigo="3162080064" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3162080054"/>
+    <curso ensenanza="5" codigo="3162080071" abreviatura="2CFS" nombre_cas="Segundo" nombre_val="Segon" padre="3162080054"/>
+    <curso ensenanza="5" codigo="3162075362" abreviatura="061" nombre_cas="SANIDAD" nombre_val="SANITAT" padre=" "/>
+    <curso ensenanza="5" codigo="3162075364" abreviatura="GM" nombre_cas="GRADO MEDIO" nombre_val="GRAU MITJÀ" padre="3162075362"/>
+    <curso ensenanza="5" codigo="3162075409" abreviatura="372063" nombre_cas="CUIDADOS AUXILIARES DE ENFERMERÍA" nombre_val="CURES AUXILIARS D&apos;INFERMERIA" padre="3162075364"/>
+    <curso ensenanza="5" codigo="3162075411" abreviatura="1CFM" nombre_cas="Primero" nombre_val="Primer" padre="3162075409"/>
+    <curso ensenanza="5" codigo="3162075418" abreviatura="2CFM" nombre_cas="Segundo" nombre_val="Segon" padre="3162075409"/>
+    <curso ensenanza="5" codigo="3162075463" abreviatura="GS" nombre_cas="GRADO SUPERIOR" nombre_val="GRAU SUPERIOR" padre="3162075362"/>
+    <curso ensenanza="5" codigo="3162075530" abreviatura="977104" nombre_cas="LABORATORIO CLÍNICO Y BIOMÉDICO" nombre_val="LABORATORI CLÍNIC I BIOMÈDIC " padre="3162075463"/>
+    <curso ensenanza="5" codigo="3162075532" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3162075530"/>
+    <curso ensenanza="5" codigo="3162075539" abreviatura="2CFS" nombre_cas="Segundo" nombre_val="Segon" padre="3162075530"/>
+    <curso ensenanza="5" codigo="3162077408" abreviatura="020" nombre_cas="COMERCIO Y MARKETING" nombre_val="COMERÇ I MÀRQUETING" padre=" "/>
+    <curso ensenanza="5" codigo="3162077459" abreviatura="GM" nombre_cas="GRADO MEDIO" nombre_val="GRAU MITJÀ" padre="3162077408"/>
+    <curso ensenanza="5" codigo="3162075916" abreviatura="039" nombre_cas="HOSTELERÍA Y TURISMO" nombre_val="HOTELERIA I TURISME" padre=" "/>
+    <curso ensenanza="5" codigo="3162077479" abreviatura="925103" nombre_cas="ACTIVIDADES COMERCIALES" nombre_val="ACTIVITATS COMERCIALS" padre="3162077459"/>
+    <curso ensenanza="5" codigo="3162077481" abreviatura="1CFM" nombre_cas="Primero" nombre_val="Primer" padre="3162077479"/>
+    <curso ensenanza="5" codigo="3162077488" abreviatura="2CFM" nombre_cas="Segundo" nombre_val="Segon" padre="3162077479"/>
+    <curso ensenanza="5" codigo="3162077526" abreviatura="GS" nombre_cas="GRADO SUPERIOR" nombre_val="GRAU SUPERIOR" padre="3162077408"/>
+    <curso ensenanza="5" codigo="3162077549" abreviatura="449104" nombre_cas="COMERCIO INTERNACIONAL (LOE)" nombre_val="COMERÇ INTERNACIONAL (LOE)" padre="3162077526"/>
+    <curso ensenanza="5" codigo="3162077551" abreviatura="2CFS" nombre_cas="Segundo" nombre_val="Segon" padre="3162077549"/>
+    <curso ensenanza="5" codigo="3162077558" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3162077549"/>
+    <curso ensenanza="5" codigo="3226406297" abreviatura="829144" nombre_cas="ADMINISTRACIÓN DE SISTEMAS INFORMÁTICOS EN RED (LFP)" nombre_val="ADMINISTRACIÓ DE SISTEMES INFORMÀTICS EN XARXA (LFP)" padre="3162079953"/>
+    <curso ensenanza="5" codigo="3162075939" abreviatura="GS" nombre_cas="GRADO SUPERIOR" nombre_val="GRAU SUPERIOR" padre="3162075916"/>
+    <curso ensenanza="5" codigo="3162076026" abreviatura="714104" nombre_cas="GESTIÓN DE ALOJAMIENTOS TURÍSTICOS" nombre_val="GESTIÓ D&apos;ALLOTJAMENTS TURÍSTICS" padre="3162075939"/>
+    <curso ensenanza="5" codigo="3162076028" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3162076026"/>
+    <curso ensenanza="5" codigo="3162077591" abreviatura="222104" nombre_cas="MARKETING Y PUBLICIDAD" nombre_val="MÀRQUETING I PUBLICITAT" padre="3162077526"/>
+    <curso ensenanza="5" codigo="3162077593" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3162077591"/>
+    <curso ensenanza="5" codigo="3162077600" abreviatura="2CFS" nombre_cas="Segundo" nombre_val="Segon" padre="3162077591"/>
+    <curso ensenanza="5" codigo="3227301117" abreviatura="828144" nombre_cas="GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICA (LFP)" nombre_val="GUIA, INFORMACIÓ I ASSISTÈNCIA TURÍSTIQUES (LFP)" padre="3162075939"/>
+    <curso ensenanza="5" codigo="3162076035" abreviatura="2CFS" nombre_cas="Segundo" nombre_val="Segon" padre="3162076026"/>
+    <curso ensenanza="5" codigo="3162076089" abreviatura="827104" nombre_cas="AGENCIAS DE VIAJES Y GESTIÓN DE EVENTOS" nombre_val="AGÈNCIES DE VIATGES I GESTIÓ D&apos;ESDEVENIMENTS" padre="3162075939"/>
+    <curso ensenanza="5" codigo="3162076091" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3162076089"/>
+    <curso ensenanza="5" codigo="3162076098" abreviatura="2CFS" nombre_cas="Segundo" nombre_val="Segon" padre="3162076089"/>
+    <curso ensenanza="5" codigo="3162076110" abreviatura="828104" nombre_cas="GUÍA, INFORMACIÓN Y ASISTENCIA TURÍSTICAS" nombre_val="GUIA, INFORMACIÓ I ASSISTÈNCIA TURÍSTIQUES" padre="3162075939"/>
+    <curso ensenanza="5" codigo="3162076112" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3162076110"/>
+    <curso ensenanza="5" codigo="3162076119" abreviatura="2CFS" nombre_cas="Segundo" nombre_val="Segon" padre="3162076110"/>
+    <curso ensenanza="5" codigo="3228190451" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3226407569"/>
+    <curso ensenanza="5" codigo="3228390016" abreviatura="1CFM" nombre_cas="Primero" nombre_val="Primer" padre="3226405353"/>
+    <curso ensenanza="5" codigo="3228410748" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3226998664"/>
+    <curso ensenanza="5" codigo="3226998664" abreviatura="714144" nombre_cas="GESTIÓN DE ALOJAMIENTOS TURÍSTICOS (LFP)" nombre_val="GESTIÓ D&apos;ALLOTJAMENTS TURÍSTICS (LFP)" padre="3162075939"/>
+    <curso ensenanza="5" codigo="3228415772" abreviatura="1CFS" nombre_cas="Primero" nombre_val="Primer" padre="3226420481"/>
+    <curso ensenanza="5" codigo="3162079623" abreviatura="001" nombre_cas="ADMINISTRACIÓN Y GESTIÓN" nombre_val="ADMINISTRACIÓ I GESTIÓ" padre=" "/>
+    <curso ensenanza="5" codigo="3162079674" abreviatura="GM" nombre_cas="GRADO MEDIO" nombre_val="GRAU MITJÀ" padre="3162079623"/>
+    <curso ensenanza="5" codigo="3162079704" abreviatura="472103" nombre_cas="GESTIÓN ADMINISTRATIVA (LOE)" nombre_val="GESTIÓ ADMINISTRATIVA (LOE)" padre="3162079674"/>
+    <curso ensenanza="5" codigo="3162079706" abreviatura="1CFM" nombre_cas="Primero" nombre_val="Primer" padre="3162079704"/>
+    <curso ensenanza="5" codigo="3162079713" abreviatura="2CFM" nombre_cas="Segundo" nombre_val="Segon" padre="3162079704"/>
+    <curso ensenanza="5" codigo="3162079737" abreviatura="GS" nombre_cas="GRADO SUPERIOR" nombre_val="GRAU SUPERIOR" padre="3162079623"/>
+    <curso ensenanza="5" codigo="3162079788" abreviatura="441104" nombre_cas="ADMINISTRACIÓN Y FINANZAS (LOE)" nombre_val="ADMINISTRACIÓ I FINANCES (LOE)" padre="3162079737"/>
+    <curso ensenanza="6" codigo="3162109498" abreviatura="039" nombre_cas="HOSTELERÍA Y TURISMO" nombre_val="HOTELERIA I TURISME" padre=" "/>
+    <curso ensenanza="6" codigo="3162109500" abreviatura="X27" nombre_cas="OPERACIONES BÁSICAS DE PISOS EN ALOJAMIENTOS" nombre_val="OPERACIONS BÀSIQUES DE PISOS EN ALLOTJAMENTS" padre="3162109498"/>
+  </cursos>
+</centro>
