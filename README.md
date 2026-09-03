@@ -10,6 +10,9 @@ Proyecto de analisis academico
 
 ## Campos Respetados del XML
 
+Puedes crear un script para convertirlos XML de la carpeta Originales/2021-22/Paso1 en CSV añadiendo como campos el curso y la fechaExportacion y cogiendo solo los campos indicados a continuación
+
+
 Alumnos:
 --------
 NIA
@@ -91,52 +94,39 @@ capacidad
 
 ## Campos Modificados en el XML
 
+Puedes crear un script para realizar los siguientes cambios en los XML de Alumnos y Calificaciones de la carpeta Originales/2021-22 generando un nombre distinto de fichero
+
 Alumnos:
 --------
-NIA   --> + 2345
-nombre  -->  cambio letras
-apellido1 --> cambio letras
-apellido2 ---> cambio letras
-fecha_nac 
-sexo
-tipo_doc 
+NIA   -->  Sumarle  2345
+nombre  -->  cambiar letra
+apellido1 --> cambiar letras
+apellido2 ---> cambiar letras
 documento --> 12345678X
-nacionalidad
-pais_nac	
-municipio_nac
-cod_postal 
-provincia 
-municipio 
-localidad
 telefono1 --> 666666666 
 telefono2 --> 666666666
 telefono3 --> 666666666
-email1  ---> cambio letras
-email2 ---> cambio letras
-sip	9813060035 --> 8888888888 
-expediente --> + 22222	
-ensenanza 
-curso 
-grupo
-turno
-linea 
-modalidad
-repite 
-estado_matricula 
-tipo_matricula 
-matricula_parcial 
-matricula_condic
-fecha_matricula
-fecha_ingreso_centro
+email1  ---> cambiar letras
+email2 ---> cambiar letras
+sip	--> 8888888888 
+expediente --> Sumar 234567	
+
 
 Calificaciones:
 ------------
-evaluacion
-alumno + 2345
-ensenanza
-curso
-contenido
-bloque_contenido
-nota_numerica
-tipo_nota
+alumno --> Sumar 2345
 
+
+Para los cambios de letras usar estos codigos: (a:h, e:j, i:z, o:l, u:s, m:n, d:e, s:a, c:d)
+
+
+## Analisis
+
+Puedes analizarme los ficheros csv de la carpeta Originales/2021-22/Paso1 y definirme un flujo datos para crear un data warehouse que me permita realizar una analisis  academico teniendo como base estas tablas.
+
+  Alumnos
+  Callificaciones
+  Modulos(Contenidos)
+
+  Disculpa se me ha olvidado decirte que en la tabla cursos hay una relación padre hijo entre los campos codigo y padre que me devuelve datos interesantes para el analisis, estos datos el grado, la familia, el modulo (contenido) y si es primero o segundo.
+  
