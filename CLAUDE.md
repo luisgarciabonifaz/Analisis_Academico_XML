@@ -9,6 +9,8 @@ Hay que crear de un flujo de datos para extraer información de ficheros XML con
 - Datos origen en formato XML
 - Datos salida en formato CSV
 
+En la tabla cursos hay una relación padre hijo entre los campos codigo y padre que me devuelve datos interesantes para el analisis, estos datos el grado, la familia, el modulo (contenido) y si es primero o segundo.
+
 ## Stack Tecnológico
 Scripts en python
 
@@ -18,6 +20,7 @@ Scripts en python
 - **Modulos**: Tabla con información de los modulos: Codigo, Nombre, Curso
 - **Horas**: Tabla de horas por mudulo.
 
+
 ## Funcionalidades principales del Flujo
 - Modificar los XML originales para que los datos no sean reconocibles
 - Convertir los XML en CSV incluyendo, Año y Fecha de exportacion como campos
@@ -26,3 +29,15 @@ Scripts en python
 - Modificar y/o crear los csv que conformam el Data Warehouse
 - Diseñar el Cuadro de mando
 - Crear el cuadro de mando
+
+## Caracteriticas del cuadro de mando
+
+- Deben aparecer valores de porcentaje de alumnos con todo aprobado
+- Grafico individual y KPI's con totales
+- Debe tener los siguientes filtros
+  - Familia
+  - Grado
+  - Curso (Primero/Segundo) 
+  - Ciclo
+  - Turno 
+  - Año

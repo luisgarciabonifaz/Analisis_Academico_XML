@@ -1,7 +1,7 @@
 # Análisis de datos y diseño del Data Warehouse académico
 
-> Curso analizado: **2021‑22** · Ficheros: `Originales/2021-22/Paso1/*.csv`
-> Fecha del análisis: 2026‑09‑03
+> Curso analizado: **2021‑22** · Ficheros: `data/03_csv/2021-22/*.csv`
+> Fecha del análisis: 2026‑09‑03 · Actualizado: 2026‑09‑04 (requisitos del cuadro de mando, `CLAUDE.md`)
 
 ---
 
@@ -172,26 +172,27 @@ Todos los CSV incluyen además `anyo` (= `curso` del `<centro>`) y `fecha_export
 ## 6. Flujo de datos (capas)
 
 ```
-Originales/<curso>/*.xml              ITACA en bruto
-   │  Paso 1 · anonimizar_xml.py      (anonimización)
+data/01_raw/<curso>/*.xml             ITACA en bruto
+   │  Paso 1 · scripts/01_anonimizar_xml.py   (anonimización + filtrado de campos)
    ▼
-Originales/<curso>/Paso1/*.xml        XML anonimizado
-   │  Paso 2 · XML_a_CSV.py           (extracción a CSV + anyo, fecha_exportacion)
+data/02_anonimizado/<curso>/*.xml     XML anonimizado y filtrado
+   │  Paso 2 · scripts/02_xml_a_csv.py        (extracción a CSV + anyo, fecha_exportacion)
    ▼
-Originales/<curso>/Paso1/*.csv        STAGING CRUDO (1:1 con el XML)
-   │  Paso 3 · transformar.py         dedup · tipado · nulos · flags · D1/D2/D4
+data/03_csv/<curso>/*.csv             STAGING CRUDO (1:1 con el XML)
+   │  Paso 3 · scripts/03_transformar.py      dedup · tipado · nulos · flags · D1/D2/D4
    ▼
-<curso>/Staging/*.csv                 STAGING LIMPIO
-   │  Paso 4 · cargar_dw.py           claves subrogadas · jerarquía de Cursos ·
-   │                                  catálogos · UNION multi-año
+data/04_staging/<curso>/*.csv         STAGING LIMPIO
+   │  Paso 4 · scripts/04_cargar_dw.py        claves subrogadas · jerarquía de Cursos ·
+   │                                          catálogos · UNION multi-año
    ▼
-DW/  dim_*.csv  +  hecho_*.csv        DATA WAREHOUSE (esquema en estrella)
+data/05_dw/  dim_*.csv  +  hecho_*.csv        DATA WAREHOUSE (esquema en estrella)
    │  Paso 5
    ▼
 Cuadro de mando (Power BI / Looker Studio / …)
 ```
 
-**Multi‑año**: los pasos 1–3 se ejecutan por cada carpeta de `Originales/*`; el paso 4
+**Multi‑año**: los pasos 1–3 se ejecutan por cada carpeta de `data/01_raw/*` (ambos
+scripts aceptan `--curso <año>`, o procesan todos los años si se omite); el paso 4
 hace `UNION` incremental usando `anyo` como parte de la clave de negocio.
 
 ---
@@ -223,7 +224,9 @@ hace `UNION` incremental usando `anyo` como parte de la clave de negocio.
 el fan‑out de las notas.
 
 Métricas: `matriculado_flag`, `baja_flag` (`estado_matricula = 'B'`), `repite_flag`,
-`matricula_parcial_flag`, `matricula_condic_flag`, `dias_hasta_baja`.
+`matricula_parcial_flag`, `matricula_condic_flag`, `dias_hasta_baja`,
+**`todo_aprobado_flag`** (1 si el alumno tiene todos sus módulos con nota final aprobada;
+ver §8.4 — alimenta el KPI principal del cuadro de mando, §11.1).
 
 ### 7.3 Dimensiones
 
@@ -320,10 +323,36 @@ nota = None if presentado_flag == 0 else float(nota_numerica)
 aprobado_flag = 1 if (nota is not None and nota >= 5) else 0
 ```
 
+### 8.4 `todo_aprobado_flag` (Paso 4 — KPI del cuadro de mando)
+
+Se calcula por alumno y curso académico, a partir de la **nota final** de cada módulo
+matriculado (no de cada evaluación parcial), para no contar dos veces el mismo módulo:
+
+```python
+def nota_final_modulo(notas_modulo):
+    """De las calificaciones de un alumno en un modulo, se queda con la definitiva:
+    la extraordinaria (EX) si existe, si no la final ordinaria (FI)."""
+    por_evaluacion = {n["evaluacion"]: n for n in notas_modulo}
+    return por_evaluacion.get("EX") or por_evaluacion.get("FI")
+
+def todo_aprobado(alumno_notas):
+    """alumno_notas: notas del alumno agrupadas por modulo (curso, contenido)."""
+    finales = [nota_final_modulo(ns) for ns in alumno_notas.values()]
+    if not finales or any(f is None for f in finales):
+        return 0  # falta la nota final de algun modulo matriculado
+    return 1 if all(f["aprobado_flag"] == 1 for f in finales) else 0
+```
+
+> Definición pendiente de confirmar con dirección (ver §10, pendientes de negocio):
+> si un módulo sin nota final registrada debe contar como "no aprobado" (criterio de
+> arriba) o excluirse del cálculo.
+
 ---
 
 ## 9. Análisis académico habilitado
 
+- **% de alumnos con todo aprobado** (`todo_aprobado_flag`, §8.4) — KPI principal del
+  cuadro de mando, filtrable por familia, grado, curso, ciclo, turno y año (§11).
 - **Tasa de aprobados / suspensos** por módulo, ciclo, grado, familia, grupo,
   evaluación, turno, sexo, tramo de edad, nacionalidad.
 - **Evolución de notas** 1ª → 2ª → final por alumno / grupo / módulo.
@@ -340,9 +369,10 @@ aprobado_flag = 1 if (nota is not None and nota >= 5) else 0
 
 | Paso | Script | Entrada | Salida |
 |---|---|---|---|
-| 3 | `transformar.py` | `Originales/<curso>/Paso1/*.csv` | `<curso>/Staging/*.csv` |
-| 4 | `cargar_dw.py` | `<curso>/Staging/*.csv` + catálogos | `DW/dim_*.csv`, `DW/hecho_*.csv` |
-| — | Plantillas de catálogo | — | `DW/catalogos/dim_evaluacion.csv`, `dim_tipo_nota.csv`, `dim_nacionalidad.csv` (a completar) |
+| 3 | `scripts/03_transformar.py` | `data/03_csv/<curso>/*.csv` | `data/04_staging/<curso>/*.csv` |
+| 4 | `scripts/04_cargar_dw.py` | `data/04_staging/<curso>/*.csv` + catálogos | `data/05_dw/dim_*.csv`, `data/05_dw/hecho_*.csv` |
+| — | Plantillas de catálogo | — | `data/catalogos/dim_evaluacion.csv`, `dim_tipo_nota.csv`, `dim_nacionalidad.csv` (a completar) |
+| 5 | Herramienta de BI (Power BI / Looker Studio / …) | `data/05_dw/dim_*.csv`, `data/05_dw/hecho_*.csv` | Cuadro de mando — KPI, gráfico y filtros de §11 |
 
 ### Pendientes de negocio (requieren tu conocimiento)
 
@@ -350,3 +380,51 @@ aprobado_flag = 1 if (nota is not None and nota >= 5) else 0
 2. Descripción de los códigos de `tipo_nota` y cuáles significan "no presentado".
 3. Confirmar la regla de "matrícula principal" para los 7 NIA duplicados.
 4. Catálogos oficiales de `nacionalidad`, `pais_nac`, `provincia`, `municipio`.
+5. Confirmar el criterio de `todo_aprobado_flag` (§8.4): si un módulo matriculado sin
+   nota final registrada cuenta como "no aprobado" o se excluye del cálculo.
+
+---
+
+## 11. Especificación funcional del cuadro de mando
+
+Requisitos incorporados desde `CLAUDE.md` (actualización 2026‑09‑04).
+
+### 11.1 KPI principal
+
+**% de alumnos con todo aprobado** = alumnos con `todo_aprobado_flag = 1` (§8.4) /
+total de alumnos matriculados (matrícula principal, §8.2), sobre el conjunto filtrado.
+
+KPI's de apoyo con totales (tarjetas), recalculados según los filtros aplicados:
+
+- Nº de alumnos matriculados
+- Nº de alumnos con todo aprobado
+- Nº de bajas
+- Nº de calificaciones registradas
+
+### 11.2 Gráfico individual
+
+Gráfico principal que desglosa el % de todo aprobado por la dimensión elegida en el eje
+(p. ej. por ciclo, por grupo, o por alumno cuando el filtro deja un único grupo).
+Se construye sobre `hecho_matricula` agregado por `alumno_sk` / `grupo_sk` y el
+`todo_aprobado_flag`, cruzado con `dim_curso` para el desglose jerárquico.
+
+### 11.3 Filtros
+
+| Filtro | Dimensión / campo de origen |
+|---|---|
+| Familia | `dim_curso.familia_nombre` |
+| Grado | `dim_curso.grado_nombre` (GM / GS / CE) |
+| Curso (1º / 2º) | `dim_curso.curso_nivel` |
+| Ciclo | `dim_curso.ciclo_nombre_cas` |
+| Turno | `dim_grupo.turno` (D / S) |
+| Año | `dim_curso_academico.anyo` |
+
+Todos los filtros ya están cubiertos por el modelo dimensional de §7.3: no requieren
+cambios de esquema, solo que el Paso 4 haga el `UNION` multi‑año para que `Año` tenga
+más de un valor disponible.
+
+### 11.4 Grano del KPI
+
+El KPI y el gráfico se calculan sobre `hecho_matricula` (una fila por alumno
+matriculado), **no** sobre `hecho_calificacion`, para que el fan‑out de notas por
+módulo/evaluación no distorsione el porcentaje.
