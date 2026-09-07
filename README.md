@@ -6,7 +6,7 @@ Proyecto de analisis academico
 - calificaciones.xml
 - contenidos.xml
 - cursos.xml
-- grupos.xml
+
 
 ## Campos Respetados del XML
 
@@ -79,18 +79,6 @@ abreviatura
 ensenanza
 padre
 
-Grupos:
---------
-
-codigo
-nombre
-ensenanza
-linea
-turno
-modalidad
-aula
-capacidad
-
 
 ## Campos Modificados en el XML
 
@@ -130,3 +118,49 @@ Puedes analizarme los ficheros csv de la carpeta Originales/2021-22/Paso1 y defi
 
   Disculpa se me ha olvidado decirte que en la tabla cursos hay una relación padre hijo entre los campos codigo y padre que me devuelve datos interesantes para el analisis, estos datos el grado, la familia, el modulo (contenido) y si es primero o segundo.
   
+
+## Transformación de los CSV (Campos que se quedan)
+
+Alumnos
+-------
+anyo
+fecha_exporataciion
+NIA
+fecha_nac
+sexo
+nacionalidad
+pais_nac
+municipio_nac
+cod_postal
+curso
+grupo
+turno
+
+Calificaciones
+--------------
+anyo
+fecha_exportacion
+evaluacion
+alumno
+curso
+contenido
+nota_numerica
+
+Contenidos
+----------
+anyo
+fecha_exportacion
+codigo
+nombre_cas
+curso
+
+Cursos
+------
+anyo
+fecha_exportacion
+codigo
+nombre_cas
+abreviatura
+padre
+
+

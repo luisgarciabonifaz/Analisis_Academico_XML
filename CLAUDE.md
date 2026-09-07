@@ -9,7 +9,10 @@ Hay que crear de un flujo de datos para extraer información de ficheros XML con
 - Datos origen en formato XML
 - Datos salida en formato CSV
 
-En la tabla cursos hay una relación padre hijo entre los campos codigo y padre que me devuelve datos interesantes para el analisis, estos datos el grado, la familia, el modulo (contenido) y si es primero o segundo.
+- En la tabla cursos hay una relación padre hijo entre los campos codigo y padre que me devuelve datos interesantes para el analisis, estos datos el grado, la familia, el modulo (contenido) y si es primero o segundo.
+- Los alumnos con estado_maticula="B" hay que eliminarlos de todas las tablas
+- Las únicas evaluaciones validas son 01, 02, FI y EX
+- La nota_numerica=0 es equivalente a no presentado
 
 ## Stack Tecnológico
 Scripts en python
@@ -19,6 +22,62 @@ Scripts en python
 - **Calificaciones**: Tabla con las calificaciones de los alumonos por modulo y evaluación: Alumno, Modulo, Curso, Evaluacion, Nota
 - **Modulos**: Tabla con información de los modulos: Codigo, Nombre, Curso
 - **Horas**: Tabla de horas por mudulo.
+
+Datos realmente interesantes de los ficheros:
+
+Alumnos
+-------
+anyo
+fecha_exporataciion
+NIA
+fecha_nac
+sexo
+nacionalidad
+pais_nac
+municipio_nac
+cod_postal
+curso
+grupo
+turno
+
+Calificaciones
+--------------
+anyo
+fecha_exportacion
+evaluacion
+alumno
+curso
+contenido
+nota_numerica
+
+Contenidos
+----------
+anyo
+fecha_exportacion
+codigo
+nombre_cas
+curso
+
+Cursos
+------
+anyo
+fecha_exportacion
+codigo
+nombre_cas
+abreviatura
+padre
+
+
+Grupos
+------
+anyo
+fecha_exportacion
+codigo
+nombre
+turno
+modalidad
+aula
+capacidad
 
 
 ## Funcionalidades principales del Flujo
@@ -41,3 +100,6 @@ Scripts en python
   - Ciclo
   - Turno 
   - Año
+
+
+
