@@ -1,28 +1,44 @@
 # Análisis de datos y diseño del Data Warehouse académico
 
 > Curso analizado: **2021‑22** · Ficheros: `data/03_csv/2021-22/*.csv`
-> Fecha del análisis: 2026‑09‑03 · Actualizado: 2026‑09‑07 — (a) nuevas reglas de trabajo y
+> Fecha del análisis: 2026‑09‑03 · Actualizado: 2026‑09‑08 — (a) nuevas reglas de trabajo y
 > lista blanca de campos de la transformación (`CLAUDE.md` / `README.md`); (b) revisión
 > multi‑año tras regenerar los CSV; (c) alta de las calificaciones de 2023‑24;
-> (d) **se retira la tabla `Grupos` del proyecto** (ver §3.5 y §7.6).
+> (d) **`grupos.xml` eliminado de `data/01_raw/` y retirado de `CLAUDE.md` / `README.md`**:
+> la tabla `Grupos` sale del proyecto por completo (ver §3.5 y §7.6);
+> (e) **capítulo de transformación ampliado** — diccionario campo a campo
+> origen → destino (§5.3), ejemplos aplicados (§5.4) e impacto acumulado en volumen (§5.5);
+> (f) **nueva capa de anonimización real sobre los CSV (Paso 3, `scripts/03_anonimizar_csv.py`)**
+> entre la conversión a CSV y la transformación → renumeración: transformación = **Paso 4**
+> (`data/05_staging/`), carga del DW = **Paso 5** (`data/06_dw/`), cuadro de mando = **Paso 6**.
+> El criterio y el diccionario campo a campo de la anonimización están en §5.6.
 >
 > **Alcance del DW**: cursos **2021‑22 … 2024‑25** (4 años completos). **2025‑26 se excluye**
 > mientras su exportación esté incompleta (calificaciones vacías); se incorporará sin cambios
 > de esquema cuando llegue el export definitivo.
 >
-> **Tablas de origen: 4** — `Alumnos`, `Calificaciones`, `Contenidos`, `Cursos`. `Grupos` se
-> descarta: su único dato imprescindible (`turno`) está duplicado en `Alumnos`.
+> **Tablas de origen: 4** — `Alumnos`, `Calificaciones`, `Contenidos`, `Cursos`. `Grupos` ya
+> no se exporta: su único dato imprescindible (`turno`) está duplicado en `Alumnos`.
 
 ---
 
 ## 1. Resumen ejecutivo
 
-Los CSV de `data/03_csv/<curso>/` provienen de la exportación de ITACA (anonimizada en el
-Paso 1 y convertida a CSV en el Paso 2). Contienen los datos necesarios para construir un
-Data Warehouse dimensional orientado al análisis académico.
+Los CSV de `data/03_csv/<curso>/` provienen de la exportación de ITACA (ofuscada en el
+Paso 1 para que el alumno no se reconozca y convertida a CSV en el Paso 2). Contienen los
+datos necesarios para construir un Data Warehouse dimensional orientado al análisis académico.
 
-El corazón del flujo es el **Paso 3 (transformación)**, que aplica las reglas de negocio
-fijadas en `CLAUDE.md` y deja la lista blanca de columnas del `README.md`:
+Hay **dos pasos de transformación** encadenados:
+
+- **Paso 3 — anonimización real** (`scripts/03_anonimizar_csv.py`, `data/03_csv/` →
+  `data/04_anon/`): rompe de verdad el vínculo con la persona (seudónimo irreversible del
+  identificador, generalización de quasi‑identificadores, k‑anonimato). No cambia el grano
+  ni el significado analítico. Criterio y diccionario campo a campo en §5.6.
+- **Paso 4 — reglas de negocio y calidad** (`scripts/04_transformar.py`, `data/04_anon/` →
+  `data/05_staging/`): es el único paso que **cambia el significado** de los datos. Aplica
+  las reglas de `CLAUDE.md`, corrige los problemas de calidad del origen y recorta cada CSV
+  a la lista blanca del `README.md`. Detalle campo a campo en §5.3–§5.5 y §8. Resumen de
+  las seis operaciones:
 
 1. **Filtrar filas de baja** — se eliminan los alumnos con `estado_matricula = 'B'` **y en
    cascada todas sus calificaciones** (regla `CLAUDE.md`). El DW solo contiene matrícula viva.
@@ -36,9 +52,9 @@ fijadas en `CLAUDE.md` y deja la lista blanca de columnas del `README.md`:
    aparecen en `README.md` (`tipo_nota`, `bloque_contenido`, `ensenanza`, `nombre_val`,
    `linea`, geografía de residencia, teléfonos, fechas de matrícula, …).
 6. **Aplanar la jerarquía de `Cursos`** (familia → grado → ciclo → 1º/2º) sobre las
-   dimensiones de curso y de módulo (Paso 4).
+   dimensiones de curso y de módulo (Paso 5).
 
-Cifras del curso 2021‑22 tras el Paso 3: **1.198** matrículas vivas (todas con `NIA` único),
+Cifras del curso 2021‑22 tras el Paso 4: **1.198** matrículas vivas (todas con `NIA` único),
 **17.958** calificaciones válidas y deduplicadas, **265** módulos, **70** cursos
 jerárquicos. La integridad referencial del origen es muy buena (0 huérfanos).
 
@@ -51,20 +67,25 @@ la jerarquía se resuelve siempre.
 
 ## 2. Inventario de ficheros
 
-| Fichero | Filas (2021‑22) | Grano (1 fila = …) | Clave natural (tras Paso 3) |
+| Fichero | Filas (2021‑22) | Grano (1 fila = …) | Clave natural (tras Paso 4) |
 |---|---:|---|---|
 | `Alumnos.csv` | 1.341 (→ 1.198 tras quitar `B`) | matrícula de un alumno en un grupo | `NIA` |
 | `Calificaciones.csv` | 18.906 (→ 17.958 válidas + `DISTINCT`) | nota de un alumno en un módulo / evaluación | `alumno` + `curso` + `contenido` + `evaluacion` |
 | `Contenidos.csv` (Módulos) | 265 | módulo dentro de un curso (1º/2º de un ciclo) | `curso` + `codigo` |
 | `Cursos.csv` | 70 | nodo del árbol académico (familia/grado/ciclo/curso) | `codigo` |
-| ~~`Grupos.csv`~~ | — | **descartada** (ver §3.5) | — |
+| ~~`Grupos.csv`~~ | — | **fuera del proyecto** — `grupos.xml` ya no se exporta (ver §3.5) | — |
 
 Todos los CSV incluyen `anyo` (= `curso` del `<centro>`) y `fecha_exportacion`
 (= `fechaExportacion` del `<centro>`), añadidos en el Paso 2.
 
-> `Grupos.csv` puede seguir generándose en los Pasos 1‑2 (es inofensivo), pero el Paso 3
-> **no lo lee**. El código de grupo se conserva vía `Alumnos.grupo` como dimensión
-> degenerada; `turno` se toma de `Alumnos.turno`.
+> **`grupos.xml` se ha eliminado de `data/01_raw/`** y ya no figura en `CLAUDE.md` /
+> `README.md`. Los `Grupos.csv` / `grupos.xml` que aún quedan en `data/02_anonimizado/` y
+> `data/03_csv/` son residuos de ejecuciones anteriores y desaparecen al regenerar esas
+> capas. Conviene además retirar la entrada `grupos.xml` de `FICHEROS` /
+> `CAMPOS_GRUPO` en `scripts/01_anonimizar_xml.py` y de `CONVERSIONES` en
+> `scripts/02_xml_a_csv.py` (hoy solo generan un aviso de "no existe"). El código de grupo
+> se conserva vía `Alumnos.grupo` como dimensión degenerada; `turno` se toma de
+> `Alumnos.turno`.
 
 **Disponibilidad multi‑año** (estado tras regenerar los CSV, 2026‑09‑07):
 
@@ -79,7 +100,7 @@ Todos los CSV incluyen `anyo` (= `curso` del `<centro>`) y `fecha_exportacion`
 El `anyo` interno es el **año de inicio** del curso (`2021` ↔ "2021‑22"); `dim_curso_academico`
 debe derivar la etiqueta como `f"{anyo}-{(anyo+1) % 100:02d}"`.
 
-**Notas para el Paso 3/4 (`UNION` multi‑año):**
+**Notas para el Paso 4/5 (`UNION` multi‑año):**
 
 - **2023‑24** ya trae calificaciones (export del **13/01/2026**, ~15 meses posterior al del
   resto de tablas de ese año, del 19/10/2023). Ese desfase provoca **188 calificaciones de
@@ -89,11 +110,11 @@ debe derivar la etiqueta como `f"{anyo}-{(anyo+1) % 100:02d}"`.
 - **2025‑26**: fuera de alcance mientras las calificaciones estén vacías. Cuando llegue el
   export completo entra sin tocar el esquema. Sus `Contenidos`/`Cursos` ya están.
 - **Ficheros residuales a ignorar** en `data/03_csv/2023-24/`: `Horas.csv` y `Modulos.csv`
-  (de un análisis manual previo; ningún otro año los tiene). El Paso 3 solo lee los **4 CSV
+  (de un análisis manual previo; ningún otro año los tiene). El Paso 4 solo lee los **4 CSV
   canónicos** (`Alumnos`, `Calificaciones`, `Contenidos`, `Cursos`); `Grupos.csv` también
   se ignora.
 
-**Volúmenes esperados tras el Paso 3** (R1 + R2 + `DISTINCT`):
+**Volúmenes esperados tras el Paso 4** (R1 + R2 + `DISTINCT`):
 
 | Curso | Alumnos vivos | Calificaciones válidas y dedup. | Ceros (→ no presentado) |
 |---|---:|---:|---:|
@@ -111,22 +132,24 @@ debe derivar la etiqueta como `f"{anyo}-{(anyo+1) % 100:02d}"`.
 - 37 columnas en el CSV crudo. Campos con valor **constante**: `ensenanza = 5` (FP),
   `modalidad = COM`.
 - **Filtro de bajas (regla `CLAUDE.md`)**: `estado_matricula` — `M` (matriculado) 1.198 ·
-  `B` (baja) 143. Las 143 filas `B` **se eliminan en el Paso 3** junto con sus
+  `B` (baja) 143. Las 143 filas `B` **se eliminan en el Paso 4** junto con sus
   calificaciones. `estado_matricula` **no** forma parte de la lista blanca: se usa para
   filtrar y luego se descarta.
 - **`NIA` duplicado**: 1.334 distintos en 1.341 filas → 7 `NIA` repetidos. En 2021‑22 los
   7 son parejas `M` + `B`, así que **al quitar las bajas el `NIA` queda único** (1.198
   filas, 1.198 `NIA`). En otros años quedan pocos duplicados `M` + `M` residuales
   (2022‑23: 2, 2023‑24: 0, 2024‑25: 4) → ver D1.
-- **Lista blanca (Paso 3)** — solo se conservan:
+- **Lista blanca (tras Pasos 3 + 4)** — solo se conservan:
 
-  `anyo`, `fecha_exportacion`, `NIA`, `fecha_nac`, `sexo`, `nacionalidad`, `pais_nac`,
-  `municipio_nac`, `cod_postal`, `curso`, `grupo`, `turno`.
+  `anyo`, `fecha_exportacion`, `NIA` (seudónimo), `anyo_nac`, `sexo`, `nacionalidad`,
+  `pais_nac`, `municipio_nac`, `cp_distrito`, `curso`, `grupo`, `turno`.
 
-  Se eliminan nombre y apellidos, documento, teléfonos, emails, sip, expediente,
-  `ensenanza`, `linea`, `modalidad`, `repite`, `estado_matricula`, `tipo_matricula`,
-  `matricula_parcial`, `matricula_condic`, `fecha_matricula`, `fecha_ingreso_centro`, y la
-  geografía de **residencia** (`provincia`, `municipio`, `localidad`).
+  El **Paso 3** (§5.6) elimina ya nombre y apellidos, documento, teléfonos, emails, sip,
+  expediente, `fecha_ingreso_centro` y la geografía de **residencia**
+  (`provincia`, `municipio`, `localidad`); y generaliza `fecha_nac` → `anyo_nac`,
+  `cod_postal` → `cp_distrito`. El **Paso 4** (R4) elimina además `ensenanza`, `linea`,
+  `modalidad`, `repite`, `estado_matricula`, `tipo_matricula`, `matricula_parcial`,
+  `matricula_condic`, `fecha_matricula`.
 - Distribuciones útiles que quedan:
 
   | Campo | Valores (2021‑22, tras quitar `B`) |
@@ -137,14 +160,16 @@ debe derivar la etiqueta como `f"{anyo}-{(anyo+1) % 100:02d}"`.
   | `curso` | nodos hoja (L3) del árbol de Cursos |
   | `nacionalidad`, `pais_nac`, `municipio_nac` | códigos sin descripción → catálogos |
 
-- `fecha_nac` siempre informada → permite derivar **edad** y **tramo de edad**.
-- `cod_postal` se conserva (permite geolocalización aproximada del alumno); `municipio_nac`
-  es el municipio **de nacimiento**, no el de residencia.
+- `fecha_nac` siempre informada; el Paso 3 la reduce a `anyo_nac` → permite derivar **edad**
+  (±1 año) y **tramo de edad**.
+- `cod_postal` siempre que el alumno lo declara; el Paso 3 lo reduce a `cp_distrito`
+  (3 dígitos → geolocalización aproximada). `municipio_nac` es el municipio **de nacimiento**,
+  no el de residencia, y el Paso 3 agrupa sus valores raros en "Otros" (k‑anonimato).
 
 ### 3.2 Calificaciones
 
 - **Grano de origen**: alumno × curso × contenido × evaluación × tipo_nota.
-  **Grano tras el Paso 3**: alumno × curso × contenido × evaluación (se elimina `tipo_nota`).
+  **Grano tras el Paso 4**: alumno × curso × contenido × evaluación (se elimina `tipo_nota`).
 - **Filtro de evaluaciones (regla `CLAUDE.md`)** — solo son válidas `01`, `02`, `FI`, `EX`:
 
   | Código | Nº (2021‑22) | Interpretación | Se conserva |
@@ -185,7 +210,7 @@ debe derivar la etiqueta como `f"{anyo}-{(anyo+1) % 100:02d}"`.
   ciclos.
 - El campo `curso` apunta **siempre a un nodo hoja (L3)** del árbol de Cursos → cada módulo
   se clasifica por familia / grado / ciclo / 1º‑2º.
-- **Lista blanca (Paso 3)**: `anyo`, `fecha_exportacion`, `codigo`, `nombre_cas`, `curso`.
+- **Lista blanca (Paso 4)**: `anyo`, `fecha_exportacion`, `codigo`, `nombre_cas`, `curso`.
   Se eliminan `nombre_val` y `ensenanza`.
 - `tipo_modulo` sigue siendo derivable del `codigo`: tutoría (`TU*`), inglés técnico /
   horario en inglés (`CV*`), módulos ordinarios (código numérico).
@@ -202,7 +227,7 @@ debe derivar la etiqueta como `f"{anyo}-{(anyo+1) % 100:02d}"`.
 | **L3** | Curso (1º / 2º) | `Primero` / `Segundo` / `Primero CE` | `1CFS` `2CFS` `1CFM` `2CFM` `1CES` | 33 |
 
 - `Alumnos`, `Calificaciones` y `Contenidos` referencian **siempre nodos L3**.
-- **Lista blanca (Paso 3)**: `anyo`, `fecha_exportacion`, `codigo`, `nombre_cas`,
+- **Lista blanca (Paso 4)**: `anyo`, `fecha_exportacion`, `codigo`, `nombre_cas`,
   `abreviatura`, `padre`. Se eliminan `nombre_val` y `ensenanza`.
 - **Datos que aporta la jerarquía** (subiendo por `padre` desde el `curso`):
   - **1º o 2º** (`curso_nivel` = 1ª cifra de la abreviatura L3, coincide con la 1ª cifra del `grupo`),
@@ -218,12 +243,13 @@ debe derivar la etiqueta como `f"{anyo}-{(anyo+1) % 100:02d}"`.
     `ciclo` / `curso_nivel` = NULL sin que falle el proceso.
   - **Crecimiento de la oferta**: los nodos de `Cursos` pasan de 70 (2021‑22) a 94
     (2024‑25) y los `Contenidos` de 265 a 372, manteniéndose siempre 7 familias raíz.
-    `dim_curso` y `dim_modulo` deben cargarse **por año** (`UNION` en el Paso 4), no
+    `dim_curso` y `dim_modulo` deben cargarse **por año** (`UNION` en el Paso 5), no
     reutilizar un único árbol.
 
-### 3.5 Grupos — **tabla descartada del proyecto**
+### 3.5 Grupos — **tabla fuera del proyecto**
 
-`Grupos.csv` deja de usarse. Motivos y consecuencias:
+`grupos.xml` se ha eliminado de `data/01_raw/` y de `CLAUDE.md` / `README.md`: la tabla no
+se extrae, ni se transforma, ni se carga. Motivos y consecuencias:
 
 - **`turno` (D/S)** —único campo de `Grupos` necesario para el cuadro de mando (filtro
   "Turno")— está **también en `Alumnos.turno`**. Comprobado en los 4 años: `Alumnos.turno`
@@ -265,36 +291,40 @@ Revalidado sobre los 4 años en alcance:
 | `Calificaciones.curso` → `Cursos.codigo` | 0 | 0 | 0 | 0 |
 | Notas en conflicto tras quitar `tipo_nota` | 0 | 0 | 0 | 0 |
 
-> Tras el Paso 3 hay que **revalidar** que al borrar las bajas no queden calificaciones
+> Tras el Paso 4 hay que **revalidar** que al borrar las bajas no queden calificaciones
 > huérfanas y que ningún `Alumnos.curso` quede sin nodo en el árbol del año.
 
 ---
 
-## 5. Reglas de negocio y problemas de calidad — tratamiento en el Paso 3
+## 5. Transformación de los datos (Pasos 3 y 4)
 
-### 5.1 Reglas de negocio (obligatorias, de `CLAUDE.md`)
+§5.1–§5.5 describen el **Paso 4** (reglas de negocio `CLAUDE.md` + calidad + lista blanca,
+`data/04_anon/` → `data/05_staging/`). §5.6 describe el **Paso 3** (anonimización real,
+`data/03_csv/` → `data/04_anon/`), que se ejecuta **antes** que todo lo anterior.
+
+### 5.1 Reglas de negocio del Paso 4 (obligatorias, de `CLAUDE.md`)
 
 | # | Regla | Detalle | Tratamiento |
 |---|---|---|---|
 | R1 | Eliminar bajas | `estado_matricula = 'B'` en Alumnos | Borrar esas filas **y en cascada sus calificaciones** (join por `alumno = NIA`). Aplicar **antes** de deduplicar. |
 | R2 | Evaluaciones válidas | solo `01`, `02`, `FI`, `EX` | `WHERE evaluacion IN ('01','02','FI','EX')` sobre Calificaciones. El resto se descarta. |
 | R3 | `nota_numerica = 0` = no presentado | ceros en evaluaciones válidas | `presentado_flag = 0`, `nota = NULL`; conservar `nota_numerica` cruda. |
-| R4 | Lista blanca de columnas | campos de `README.md` §"Transformación de los CSV" | Proyectar cada CSV a sus columnas permitidas; eliminar el resto. Último sub‑paso del Paso 3. |
+| R4 | Lista blanca de columnas | campos de `README.md` §"Transformación de los CSV" | Proyectar cada CSV a sus columnas permitidas; eliminar el resto. Último sub‑paso del Paso 4. |
 
 ### 5.2 Problemas de calidad detectados
 
 | # | Problema | Detalle | Tratamiento |
 |---|---|---|---|
-| D1 | `NIA` duplicado residual | tras R1 quedan 0 (2021‑22), 2 (2022‑23), 0 (2023‑24), 4 (2024‑25) parejas `M` + `M` (cambio de grupo/turno dentro del curso) | 1 fila por `NIA` en `dim_alumno`: quedarse con la de `fecha_matricula` más reciente (o `grupo` con más calificaciones). Documentar la elección. |
+| D1 | `NIA` duplicado residual | tras R1 quedan 0 (2021‑22), 2 (2022‑23), 0 (2023‑24), 4 (2024‑25) parejas `M` + `M` (cambio de grupo/turno dentro del curso) | 1 fila por `NIA` en `dim_alumno`: quedarse con la de `fecha_matricula` más reciente (ya generalizada a `aaaa-mm` en el Paso 3; si empatan, `grupo` con más calificaciones). Documentar la elección. |
 | D2 | Filas duplicadas en Calificaciones | el cruce alumno↔grupo de ITACA repite notas idénticas (hasta 4×); al quitar `tipo_nota` colapsan más filas, todas con la misma nota. Afecta a 2021‑22 (‑237), 2022‑23 (‑393), 2024‑25 (‑2.181); 2023‑24 no trae duplicados (export distinto) | `DISTINCT` sobre las columnas de la lista blanca, **después** de R1/R2. |
 | D3 | `bloque_contenido` siempre vacío | 100 % de las filas en todos los años | Eliminado por R4 (y de todas formas 100 % nulo). |
 | D4 | Nulos como `" "` | ITACA rellena vacíos con espacio | Normalizar `""` → NULL al tipar (el `strip()` ya se hace en el Paso 2). |
-| D5 | Códigos sin descripción | `nacionalidad`, `pais_nac`, `municipio_nac` | Tablas de catálogo rellenadas manualmente una vez. `evaluacion` ya no necesita catálogo (dominio fijo de 4). |
-| D6 | Columnas constantes | `ensenanza = 5`, `modalidad = COM` | Ambas se eliminan (`ensenanza` por R4; `modalidad` desaparece con `Grupos`). |
+| D5 | Códigos sin descripción | `nacionalidad`, `pais_nac`, `municipio_nac` | Tablas de catálogo rellenadas manualmente una vez; añadir la fila genérica que introduce el k‑anonimato del Paso 3 (`999` / `9999` → "Otros"). `evaluacion` ya no necesita catálogo (dominio fijo de 4). |
+| D6 | Columnas constantes | `ensenanza = 5` (Alumnos/Calificaciones/Contenidos/Cursos), `modalidad = COM` (Alumnos) | Todas se eliminan por R4 (no están en la lista blanca). |
 | D7 | Familia `039` en 2 nodos raíz | jerarquía de Cursos | Clave por `familia_codigo`, no por `codigo` del nodo. |
 | D8 | Rama sin L2/L3 (`X27`) | programa formativo básico | Resolver niveles faltantes a NULL / `PFB`. |
 | D9 | 2025‑26 sin calificaciones | export de notas vacío (curso en marcha) | **Fuera de alcance** hasta que llegue el export completo; entra sin cambios de esquema. |
-| D10 | Ficheros residuales en `data/03_csv/2023-24/` | `Horas.csv` y `Modulos.csv` (análisis manual previo; ningún otro año los tiene) | El Paso 3 solo lee los 5 CSV canónicos; conviene borrarlos. |
+| D10 | Ficheros residuales en `data/03_csv/2023-24/` | `Horas.csv` y `Modulos.csv` (análisis manual previo; ningún otro año los tiene) | El Paso 4 solo lee los 4 CSV canónicos; conviene borrarlos (junto con los `Grupos.csv` residuales de todos los años). |
 | D11 | Huérfanos de calificación en 2023‑24 | `Calificaciones` exportado 15 meses después que `Alumnos` → 188 filas de 9 alumnos sin `NIA` en `Alumnos.csv` | `INNER JOIN` con la matrícula viva (la cascada de R1 ya descarta lo que no casa). Ideal: reexportar `Alumnos` 2023‑24 a fecha coherente. |
 | D12 | `Grupos` retirada | el DW ya no tiene `dim_grupo` | `turno` ← `Alumnos.turno`; `grupo_cod` como dimensión degenerada en los hechos; sin ocupación/capacidad ni aula (ver §3.5, §7.6). |
 
@@ -302,48 +332,237 @@ Revalidado sobre los 4 años en alcance:
 > ambigüedad del "0" (ahora es regla R3), y la resolución de matrículas dobles `M` + `B`
 > (R1 las elimina).
 
+### 5.3 Diccionario de transformación por tabla (Paso 4)
+
+Para cada CSV de `data/04_anon/<curso>/` (ya anonimizado en el Paso 3: sin datos personales,
+`NIA`/`alumno` seudonimizados, `fecha_nac`→`anyo_nac`, `cod_postal`→`cp_distrito`) se indica
+qué le pasa a **cada campo** al escribir `data/05_staging/<curso>/`. Leyenda de la columna
+*Acción*:
+
+- **CLAVE** — se conserva; forma parte de la clave natural del *staging*.
+- **CONSERVA** — se conserva tal cual (solo se normaliza `" "` / `""` → NULL, D4).
+- **CONSERVA (cruda)** — se conserva sin tocar aunque tenga un flag derivado al lado.
+- **FILTRA→ELIMINA** — se usa para filtrar filas (R1/R2) y después **no** se escribe.
+- **DERIVA** — no viaja al *staging*, pero de él salen columnas nuevas.
+- **ELIMINA (R4)** — se descarta por no estar en la lista blanca del `README.md`.
+- **NUEVA** — columna que no existe en el origen y se añade en este paso.
+
+#### Alumnos — 21 columnas de entrada (`data/04_anon/`) → 12 de lista blanca + 0 derivadas
+
+(Recuérdese: los datos personales, la geografía de residencia y `fecha_ingreso_centro` ya
+**no existen** a la entrada del Paso 4 — los eliminó el Paso 3, ver §5.6.)
+
+| Campo entrada | Acción | Destino / motivo |
+|---|---|---|
+| `anyo`, `fecha_exportacion` | CONSERVA | añadidos en Paso 2; `anyo` entra en la clave de negocio multi‑año |
+| `NIA` | CLAVE | seudónimo del alumno (Paso 3); único tras R1 + D1 |
+| `estado_matricula` | FILTRA→ELIMINA | R1: las filas `B` (y sus calificaciones) se borran; el campo **no** se escribe |
+| `fecha_matricula` (`aaaa-mm`) | DERIVA→ELIMINA | solo se usa como criterio de desempate en D1; no se escribe |
+| `anyo_nac`, `sexo`, `nacionalidad`, `pais_nac`, `municipio_nac`, `cp_distrito` | CONSERVA | atributos de `dim_alumno` (`anyo_nac` alimenta `edad` / `tramo_edad` en Paso 5) |
+| `curso` | CONSERVA | FK a `dim_curso` (nodo hoja L3); enlaza toda la jerarquía académica |
+| `grupo` | CONSERVA | dimensión **degenerada** `grupo_cod` en los hechos |
+| `turno` | CONSERVA | `D`/`S`; viaja **degenerado** a los dos hechos (sustituye a `Grupos.turno`) |
+| `ensenanza` (=5), `modalidad` (=COM), `linea` | ELIMINA (R4) | columnas constantes, sin valor analítico (D6) |
+| `repite`, `tipo_matricula`, `matricula_parcial`, `matricula_condic` | ELIMINA (R4) | fuera de alcance del cuadro de mando |
+
+#### Calificaciones — 10 columnas crudas → 7 de lista blanca + 3 derivadas
+
+| Campo origen | Acción | Destino / motivo |
+|---|---|---|
+| `anyo`, `fecha_exportacion` | CONSERVA | `anyo` entra en la clave de negocio |
+| `alumno` | CLAVE | FK a `dim_alumno` (= seudónimo del `NIA`, ya aplicado en el Paso 3); R1 borra en cascada las de alumnos de baja; D11 descarta las huérfanas de 2023‑24 |
+| `curso` | CLAVE | FK a `dim_curso` |
+| `contenido` | CLAVE | con `curso` forma la FK a `dim_modulo` (`codigo` no es único, §3.3) |
+| `evaluacion` | CLAVE + FILTRA | R2: solo `01`, `02`, `FI`, `EX`; el resto de filas se descarta. El código válido **sí** se escribe |
+| `nota_numerica` | CLAVE + CONSERVA (cruda) | rango 0–10; se conserva el valor bruto (incluidos los 0) en el hecho |
+| `presentado_flag` | NUEVA (R3) | `0` si `nota_numerica` es NULL o `= 0`; si no `1` |
+| `nota` | NUEVA (R3) | `= nota_numerica` salvo que `presentado_flag = 0` → **NULL** |
+| `aprobado_flag` | NUEVA (R3) | `1` si `nota >= 5`; si no (incluye no presentado y NULL) `0` |
+| `ensenanza` | ELIMINA (R4) | constante `5` (D6) |
+| `bloque_contenido` | ELIMINA (R4) | vacío en el 100 % de las filas, todos los años (D3) |
+| `tipo_nota` | ELIMINA (R4) | baja el grano de alumno×curso×contenido×evaluación×`tipo_nota` a sin `tipo_nota`; comprobado 0 conflictos de nota al colapsar (§3.2) → lo resuelve el `DISTINCT` de D2 |
+
+#### Contenidos (Módulos) — 7 columnas crudas → 5 de lista blanca
+
+| Campo origen | Acción | Destino / motivo |
+|---|---|---|
+| `anyo`, `fecha_exportacion` | CONSERVA | `dim_modulo` se carga **por año** (la oferta crece, §3.4) |
+| `codigo` | CLAVE | parte de la clave `(curso, codigo)`; no es único por sí solo |
+| `curso` | CLAVE | nodo hoja L3 → hereda familia/grado/ciclo/1º‑2º en Paso 5 |
+| `nombre_cas` | CONSERVA | descripción del módulo; de `codigo` se deriva `tipo_modulo` en Paso 5 |
+| `nombre_val` | ELIMINA (R4) | nombre en valenciano, redundante |
+| `ensenanza` | ELIMINA (R4) | constante `5` (D6) |
+
+#### Cursos — 8 columnas crudas → 6 de lista blanca
+
+| Campo origen | Acción | Destino / motivo |
+|---|---|---|
+| `anyo`, `fecha_exportacion` | CONSERVA | el árbol se resuelve **por año** |
+| `codigo` | CLAVE | nodo del árbol |
+| `padre` | CONSERVA | enlace `codigo ← padre`; el Paso 5 sube por él para aplanar L3→L0 (§8.7) |
+| `nombre_cas` | CONSERVA | nombre del nodo (familia / grado / ciclo / curso según nivel) |
+| `abreviatura` | CONSERVA | de la abreviatura L3 (`1CFS`, `2CFM`…) sale `curso_nivel` (1/2); de L1 el `grado_cod` (GM/GS/CE) |
+| `nombre_val` | ELIMINA (R4) | nombre en valenciano |
+| `ensenanza` | ELIMINA (R4) | constante `5` (D6) |
+
+> `Grupos` no aparece: `grupos.xml` ya no se exporta (§3.5).
+
+### 5.4 Ejemplos aplicados (2021‑22)
+
+**R1 — baja en cascada.** Alumno con `NIA = 11111` y `estado_matricula = 'B'`:
+
+```
+Alumnos      : fila NIA=11111 …                         -> ELIMINADA
+Calificaciones: 14 filas con alumno=11111 …             -> ELIMINADAS (cascada)
+```
+
+**R2 + R3 — evaluación no válida y no presentado.** Mismo alumno y módulo, 4 filas crudas:
+
+| evaluacion | nota_numerica | tipo_nota | Resultado Paso 4 |
+|---|---|---|---|
+| `01` | `7` | `RA` | fila válida → `presentado_flag=1`, `nota=7`, `aprobado_flag=1` |
+| `01` | `7` | `UF` | **duplicado** al quitar `tipo_nota` → colapsa con la anterior (D2) |
+| `FI` | `0` | `RA` | válida → `presentado_flag=0`, `nota=NULL`, `aprobado_flag=0` (R3) |
+| `FO` | `` | `` | evaluación no válida → **descartada** (R2) |
+
+Salida (2 filas): `(…,01,7,7,1,1)` y `(…,FI,0,,0,0)` — se conserva `nota_numerica=0` crudo,
+`nota` va vacía.
+
+**R4 — proyección.** La fila de `Alumnos` entra al Paso 4 con 21 columnas (el Paso 3 ya quitó
+las personales) y sale con 12; `estado_matricula`, `repite`, `fecha_matricula`, … no llegan
+a `data/05_staging/`.
+
+### 5.5 Impacto acumulado en volumen
+
+Filas de `Calificaciones` que sobreviven a cada operación (orden de §6.2):
+
+| Curso | Crudas | tras R1 (cascada bajas) | tras R2 (eval. válidas) | tras D2 (`DISTINCT`) | tras D11 (huérfanas) | **Staging** | Ceros → no presentado |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 2021‑22 | 18.906 | ~18.400 | ~17.700 | 17.958\* | — | **17.958** | 3.582 |
+| 2022‑23 | 20.324 | — | — | — | — | **19.180** | 3.854 |
+| 2023‑24 | 19.130 | — | — | — | −188 | **18.136** | 3.808 |
+| 2024‑25 | 22.510 | — | — | — | — | **19.367** | 4.579 |
+
+\* El `DISTINCT` de D2 actúa **después** de R1/R2 y, al quitar `tipo_nota`, colapsa filas
+que ya eran idénticas en la lista blanca; la cifra final ya incorpora ese efecto (‑237 en
+2021‑22, ‑393 en 2022‑23, ‑2.181 en 2024‑25; 2023‑24 no trae duplicados). El filtro R2
+elimina el **3,8 %–4,3 %** de las filas según el año.
+
+`Alumnos`: 1.341 → **1.198** (R1 quita 143 bajas; D1 no quita ninguna en 2021‑22).
+`Contenidos` y `Cursos`: sin cambio de volumen (solo `DISTINCT` de seguridad y R4).
+
+### 5.6 Anonimización real de los CSV (Paso 3)
+
+Script: `scripts/03_anonimizar_csv.py` · `data/03_csv/<curso>/` → `data/04_anon/<curso>/`
+(mismo grano, sin cambio de significado analítico). Se ejecuta por año (`--curso`) o sobre
+todos. Solo procesa los 4 CSV canónicos; `Contenidos` y `Cursos` (sin datos personales) se
+copian tal cual.
+
+**Objetivo.** El Paso 1 solo *ofusca* (reversible: `NIA + 2345`, sustitución fija de letras)
+para que el alumno no se reconozca en la simulación. El Paso 3 **rompe el vínculo con la
+persona**: ninguna fila debe poder atribuirse a alguien concreto ni siquiera cruzando
+campos, conservando la utilidad analítica (rendimiento por ciclo, edad, turno, sexo, origen).
+
+**Criterio, campo a campo (tabla `Alumnos`):**
+
+| Técnica | Campos | Qué hace |
+|---|---|---|
+| **Eliminar** | `nombre`, `apellido1/2`, `tipo_doc`, `documento`, `telefono1‑3`, `email1/2`, `sip`, `expediente`, `provincia`, `municipio`, `localidad`, `fecha_ingreso_centro` | identificadores directos + datos personales que aún arrastra el CSV + geografía de **residencia** (muy identificativa en municipios pequeños) |
+| **Seudonimizar** (HMAC‑SHA256, prefijo `AL`) | `NIA` (en `Alumnos`) y `alumno` (en `Calificaciones`) | token irreversible sin la clave, **determinista y estable** entre ficheros y años → se mantiene la integridad referencial (0 huérfanos) y el análisis multi‑año (p. ej. 635 alumnos enlazan 2021‑22 ↔ 2022‑23) |
+| **Generalizar** | `fecha_nac` → `anyo_nac` (año); `cod_postal` → `cp_distrito` (3 dígitos); `fecha_matricula` → `aaaa-mm` | elimina la parte única de cada quasi‑identificador; `anyo_nac` basta para `edad` / `tramo_edad` (§7.3) |
+| **k‑anonimato** (k = 5) | `nacionalidad` → `999`, `pais_nac` → `999`, `municipio_nac` → `9999` | un valor que aparece en **menos de 5 alumnos del mismo año** se sustituye por el código genérico ("Otros") |
+| **Conservar sin tocar** | `sexo`, `curso`, `grupo`, `turno`, `estado_matricula`, y en `Calificaciones` todo lo demás | no identifican a nivel individual; el recorte a la lista blanca es cosa del Paso 4 (R4) |
+
+**Impacto del k‑anonimato** (filas de `Alumnos` que pasan a genérico):
+
+| Curso | `nacionalidad` | `pais_nac` | `municipio_nac` |
+|---|---:|---:|---:|
+| 2021‑22 | 58 / 1.341 | 68 | 189 |
+| 2022‑23 | 45 | 54 | 179 |
+| 2023‑24 | 43 | 54 | 208 |
+| 2024‑25 | 34 | 36 | 174 |
+
+`municipio_nac` (municipio de **nacimiento**) queda muy recortado, pero apenas se usa; el
+análisis geográfico se apoya en `cp_distrito`. `nacionalidad` conserva las nacionalidades
+frecuentes y agrupa la cola en "Otros" (compatible con el atributo `es_extranjero` de §7.3).
+
+**Gestión de la clave HMAC:**
+
+- Se genera sola en `data/_claves/anon_hmac.key` (todo `data/` está en `.gitignore`) o se
+  fija con la variable de entorno `ANON_KEY` / `--clave <fichero>`.
+- **Guardar una copia segura** si se quiere reproducir los mismos tokens en ejecuciones
+  futuras (altas de nuevos años). **Borrarla** corta de forma definitiva el enlace token ↔
+  `NIA` real (útil si el `data/04_anon/` se va a compartir).
+- Alternativa equivalente: tabla de correspondencia `NIA → token` aleatoria persistida fuera
+  del repo. Se ha elegido HMAC por no necesitar estado y funcionar de forma incremental.
+
+**Efecto en el resto del diseño:** el Paso 4 (§5.1–§5.5) y el modelo (§7) trabajan ya sobre
+estos nombres — `anyo_nac`, `cp_distrito`, `NIA`/`alumno` seudónimos. La derivación de `edad`
+en `dim_alumno` pasa a ser `anyo_del_curso − anyo_nac` (aproximada, ±1 año).
+
 ---
 
 ## 6. Flujo de datos (capas)
 
 ```
 data/01_raw/<curso>/*.xml             ITACA en bruto
-   │  Paso 1 · scripts/01_anonimizar_xml.py   anonimización + filtrado grueso de campos
+   │  Paso 1 · scripts/01_anonimizar_xml.py   OFUSCACIÓN (que el alumno no se reconozca) +
+   │                                          filtrado grueso de campos · reversible
    ▼
-data/02_anonimizado/<curso>/*.xml     XML anonimizado
+data/02_anonimizado/<curso>/*.xml     XML ofuscado
    │  Paso 2 · scripts/02_xml_a_csv.py        extracción a CSV + anyo, fecha_exportacion
    ▼
 data/03_csv/<curso>/*.csv             STAGING CRUDO (1:1 con el XML)
-   │  Paso 3 · scripts/03_transformar.py      ← REGLAS DE NEGOCIO (R1‑R4) + calidad (D1‑D4)
+   │  Paso 3 · scripts/03_anonimizar_csv.py   ANONIMIZACIÓN REAL: seudónimo irreversible del
+   │                                          NIA · generalización de quasi-id · k-anonimato
    ▼
-data/04_staging/<curso>/*.csv         STAGING LIMPIO (solo lista blanca + flags derivados)
-   │  Paso 4 · scripts/04_cargar_dw.py        claves subrogadas · jerarquía de Cursos ·
+data/04_anon/<curso>/*.csv            STAGING CRUDO ANONIMIZADO (mismo grano)
+   │  Paso 4 · scripts/04_transformar.py      ← REGLAS DE NEGOCIO (R1‑R4) + calidad (D1‑D4)
+   ▼
+data/05_staging/<curso>/*.csv         STAGING LIMPIO (solo lista blanca + flags derivados)
+   │  Paso 5 · scripts/05_cargar_dw.py        claves subrogadas · jerarquía de Cursos ·
    │                                          catálogos · UNION multi‑año · hechos
    ▼
-data/05_dw/  dim_*.csv  +  hecho_*.csv        DATA WAREHOUSE (esquema en estrella)
-   │  Paso 5
+data/06_dw/  dim_*.csv  +  hecho_*.csv        DATA WAREHOUSE (esquema en estrella)
+   │  Paso 6
    ▼
 Cuadro de mando (Power BI / Looker Studio / …)
 ```
 
-### 6.1 Reparto de responsabilidades entre Paso 1 y Paso 3
+> **Paso 1 vs Paso 3 — dos "anonimizaciones" con objetivos distintos.** El Paso 1 *ofusca*
+> (cambio fijo de letras, `NIA + 2345`): es reversible y su fin es que un alumno no reconozca
+> sus datos al recibir una simulación realista. El Paso 3 *anonimiza de verdad*: sustituye el
+> identificador por un token irreversible sin la clave y generaliza los quasi‑identificadores
+> para que ninguna fila pueda vincularse a una persona ni siquiera cruzando campos.
 
-| Campo | Paso 1 (XML) | Paso 3 (CSV) |
-|---|---|---|
-| Datos personales (nombre, doc, teléfono, email, sip) | anonimizados o puestos a valor fijo | eliminados por R4 |
-| `estado_matricula`, `evaluacion` | **se conservan** (Paso 3 los necesita para R1/R2) | `evaluacion` se queda (lista blanca); `estado_matricula` se usa y se descarta |
-| `tipo_nota`, `bloque_contenido`, `nombre_val`, `linea`, `ensenanza` | pueden seguir saliendo del Paso 1 | eliminados por R4 |
-| Geografía de residencia (`provincia`, `municipio`, `localidad`) | salen del Paso 1 | eliminados por R4 |
+### 6.1 Reparto de responsabilidades entre Paso 1, Paso 3 y Paso 4
+
+| Campo | Paso 1 — ofuscación (XML) | Paso 3 — anonimización (CSV) | Paso 4 — transformación (CSV) |
+|---|---|---|---|
+| Identificador de alumno (`NIA` / `alumno`) | `NIA + 2345` (reversible) | **seudónimo HMAC irreversible** y estable entre ficheros y años | se usa como FK a `dim_alumno` |
+| Datos personales (nombre, apellidos, doc, teléfono, email, sip, expediente) | letras cambiadas o valor fijo | **eliminados** | ya no están |
+| Geografía de residencia (`provincia`, `municipio`, `localidad`) | salen del Paso 1 | **eliminados** | ya no están |
+| `fecha_nac` | sale del Paso 1 | → `anyo_nac` (solo el año) | alimenta `edad` / `tramo_edad` |
+| `cod_postal` | sale del Paso 1 | → `cp_distrito` (3 primeros dígitos) | atributo de `dim_alumno` |
+| `nacionalidad`, `pais_nac`, `municipio_nac` | salen del Paso 1 | **k‑anonimato** (k=5): valor raro → genérico | atributo de `dim_alumno` (+ catálogo) |
+| `fecha_matricula` | sale del Paso 1 | → `aaaa-mm` | desempate de D1, luego se elimina (R4) |
+| `estado_matricula`, `evaluacion` | **se conservan** | se conservan sin tocar | R1/R2 los usan; `evaluacion` queda, `estado_matricula` se descarta |
+| `tipo_nota`, `bloque_contenido`, `nombre_val`, `linea`, `ensenanza` | pueden seguir saliendo | se conservan sin tocar | **eliminados por R4** |
+
+> El Paso 3 **no recorta a la lista blanca** (eso es R4, en el Paso 4): solo toca lo que
+> hace falta para anonimizar. Columnas como `repite` o `tipo_matricula` siguen presentes en
+> `data/04_anon/` y las elimina el Paso 4.
 
 > Optimización opcional: recortar ya en el Paso 1 (`CAMPOS_*` de
-> `scripts/01_anonimizar_xml.py`) los campos que el Paso 3 no usa **ni para filtrar ni para
-> la lista blanca** (`tipo_nota`, `bloque_contenido`, `nombre_val`, `linea`, geografía de
-> residencia). Hay que **mantener** `estado_matricula` y `evaluacion`. `grupos.xml` se puede
-> dejar de procesar en los Pasos 1‑2 (quitar su entrada de `FICHEROS` / `CONVERSIONES`).
+> `scripts/01_anonimizar_xml.py`) los campos que ni el Paso 3 ni el Paso 4 usan (`tipo_nota`,
+> `bloque_contenido`, `nombre_val`, `linea`, geografía de residencia). Hay que **mantener**
+> `estado_matricula` y `evaluacion`. `grupos.xml` ya **no está** en `data/01_raw/`: falta
+> solo limpiar el código muerto que lo referencia (`CAMPOS_GRUPO` + entrada de `FICHEROS` en
+> el Paso 1; entrada de `CONVERSIONES` en el Paso 2).
 
-### 6.2 Orden de operaciones dentro del Paso 3 (importante)
+### 6.2 Orden de operaciones dentro del Paso 4 (importante)
 
-Por cada carpeta `data/03_csv/<curso>/`:
+Por cada carpeta `data/04_anon/<curso>/`:
 
 1. **Cargar y tipar** los 4 CSV canónicos del año (`Alumnos`, `Calificaciones`,
    `Contenidos`, `Cursos`; ignorar `Grupos.csv` y cualquier otro fichero — ver D10/D12).
@@ -359,10 +578,10 @@ Por cada carpeta `data/03_csv/<curso>/`:
 6. **D2 — deduplicar**: `DISTINCT` en `Calificaciones` (ya proyectadas conceptualmente a la
    clave de negocio) y en el resto de tablas.
 7. **R4 — lista blanca**: proyectar cada tabla a sus columnas permitidas + las columnas
-   derivadas del punto 5. Escribir a `data/04_staging/<curso>/`.
+   derivadas del punto 5. Escribir a `data/05_staging/<curso>/`.
 
-Los pasos 1–3 se ejecutan por cada carpeta de `data/01_raw/*` (los scripts aceptan
-`--curso <año>`, o procesan todos los años). El Paso 4 hace `UNION` incremental de los
+Los pasos 1–4 se ejecutan por cada carpeta de `data/01_raw/*` (los scripts aceptan
+`--curso <año>`, o procesan todos los años). El Paso 5 hace `UNION` incremental de los
 **4 años en alcance** (2021‑22 … 2024‑25) usando `anyo` como parte de la clave de negocio;
 2025‑26 se sumará cuando su exportación de calificaciones deje de estar vacía.
 
@@ -414,12 +633,12 @@ cuadro de mando, §11.1), `n_modulos_matriculados`, `n_modulos_aprobados`,
 
 | Dimensión | Clave natural | Atributos principales / derivados |
 |---|---|---|
-| `dim_alumno` | `NIA` | `sexo`, `fecha_nac`, **`edad`**, **`tramo_edad`** (<20 / 20‑24 / 25‑29 / 30+), `nacionalidad` (desc.), `pais_nac` (desc.), **`es_extranjero`**, `municipio_nac` (desc.), `cod_postal`. SCD1 |
+| `dim_alumno` | `NIA` (seudónimo, §5.6) | `sexo`, `anyo_nac`, **`edad`** (= año del curso − `anyo_nac`, ±1), **`tramo_edad`** (<20 / 20‑24 / 25‑29 / 30+), `nacionalidad` (desc.), `pais_nac` (desc.), **`es_extranjero`**, `municipio_nac` (desc.), `cp_distrito`. SCD1 |
 | `dim_modulo` | `(curso, codigo)` | `codigo`, `nombre_cas`, **`tipo_modulo`** (tutoría / inglés / ordinario), **+ jerarquía académica heredada del `curso`** (familia, grado, ciclo, 1º/2º) |
 | `dim_curso` | `codigo` (L3) | `curso_nivel` (1/2), `curso_nombre`, `ciclo_cod`, `ciclo_nombre`, `grado_cod` (GM/GS/CE/PFB), `grado_nombre`, `familia_cod`, `familia_nombre` |
 | `dim_evaluacion` | `cod` | dominio **fijo** de 4 filas (no requiere catálogo manual): `01` = 1ª evaluación (parcial), `02` = 2ª evaluación (parcial), `FI` = Final ordinaria (final), `EX` = Extraordinaria (extraordinaria) |
 | `dim_turno` *(opcional)* | `cod` | 2 filas: `D` = Diurno, `S` = Semipresencial. Solo para poner etiqueta legible al filtro; si no, `turno` se usa como texto degenerado |
-| `dim_nacionalidad` / `dim_pais` / `dim_municipio` | `cod` | descripción — *catálogos oficiales, a completar manualmente* |
+| `dim_nacionalidad` / `dim_pais` / `dim_municipio` | `cod` | descripción — *catálogos oficiales, a completar manualmente*; incluir la fila `999` / `9999` = "Otros" que genera el k‑anonimato del Paso 3 (§5.6) |
 | `dim_curso_academico` | `anyo` | etiqueta ("2021‑22"), `fecha_exportacion` |
 
 No hay `dim_grupo`: el grupo queda como **atributo degenerado** `grupo_cod` en los hechos
@@ -429,6 +648,9 @@ No hay `dim_grupo`: el grupo queda como **atributo degenerado** `grupo_cod` en l
 > `dim_evaluacion` pasa de "rellenar manualmente 24 códigos" a un dominio fijo de 4;
 > `dim_alumno` pierde la geografía de residencia (`provincia`, `municipio`, `localidad`) y
 > `dim_curso`/`dim_modulo` pierden los nombres en valenciano y `ensenanza`.
+> Además, por la anonimización del Paso 3 (§5.6): la clave `NIA` es un **seudónimo**
+> irreversible, `fecha_nac` se reduce a `anyo_nac` y `cod_postal` a `cp_distrito` (3 díg.),
+> y `nacionalidad` / `pais_nac` / `municipio_nac` agrupan sus valores raros en "Otros".
 
 ### 7.4 Jerarquía de navegación del cuadro de mando
 
@@ -472,7 +694,7 @@ Sin impacto en el KPI principal ni en los filtros obligatorios (§11).
 
 ## 8. Lógica clave de transformación
 
-### 8.1 R1 — Eliminación de bajas y cascada (Paso 3)
+### 8.1 R1 — Eliminación de bajas y cascada (Paso 4)
 
 ```python
 def aplicar_r1(alumnos, calificaciones):
@@ -483,7 +705,7 @@ def aplicar_r1(alumnos, calificaciones):
     return alumnos_vivos, calif_vivas
 ```
 
-### 8.2 R2 — Filtro de evaluaciones válidas (Paso 3)
+### 8.2 R2 — Filtro de evaluaciones válidas (Paso 4)
 
 ```python
 EVALUACIONES_VALIDAS = {"01", "02", "FI", "EX"}
@@ -493,7 +715,7 @@ def aplicar_r2(calificaciones):
             if c["evaluacion"].strip() in EVALUACIONES_VALIDAS]
 ```
 
-### 8.3 R3 — Presentado / nota (Paso 3)
+### 8.3 R3 — Presentado / nota (Paso 4)
 
 ```python
 def derivar_nota(nota_numerica):
@@ -511,7 +733,7 @@ aprobado_flag = 1 if (nota is not None and nota >= 5) else 0
 # 'nota_numerica' cruda se conserva en hecho_calificacion aparte.
 ```
 
-### 8.4 D1 — Un alumno por `NIA` (Paso 3)
+### 8.4 D1 — Un alumno por `NIA` (Paso 4)
 
 ```python
 def matricula_unica(filas_nia, calificaciones_por_alumno):
@@ -525,19 +747,19 @@ def matricula_unica(filas_nia, calificaciones_por_alumno):
     ))
 ```
 
-### 8.5 D2 — Deduplicación (Paso 3)
+### 8.5 D2 — Deduplicación (Paso 4)
 
 - `Calificaciones`: `DISTINCT` sobre `(anyo, alumno, curso, contenido, evaluacion,
   nota_numerica)` — **después** de R1 y R2. Comprobado: no genera conflictos de nota.
 - `Alumnos`, `Contenidos`, `Cursos`: `DISTINCT` de seguridad.
 
-### 8.6 R4 — Proyección a la lista blanca (Paso 3, último sub‑paso)
+### 8.6 R4 — Proyección a la lista blanca (Paso 4, último sub‑paso)
 
 ```python
 LISTA_BLANCA = {
-    "Alumnos":       ["anyo", "fecha_exportacion", "NIA", "fecha_nac", "sexo",
-                      "nacionalidad", "pais_nac", "municipio_nac", "cod_postal",
-                      "curso", "grupo", "turno"],   # 'grupo' y 'turno' -> degeneradas
+    "Alumnos":       ["anyo", "fecha_exportacion", "NIA", "anyo_nac", "sexo",
+                      "nacionalidad", "pais_nac", "municipio_nac", "cp_distrito",
+                      "curso", "grupo", "turno"],   # NIA seudonimo; 'grupo'/'turno' -> degeneradas
     "Calificaciones":["anyo", "fecha_exportacion", "evaluacion", "alumno", "curso",
                       "contenido", "nota_numerica",
                       # + derivadas en R3:
@@ -545,14 +767,14 @@ LISTA_BLANCA = {
     "Contenidos":    ["anyo", "fecha_exportacion", "codigo", "nombre_cas", "curso"],
     "Cursos":        ["anyo", "fecha_exportacion", "codigo", "nombre_cas",
                       "abreviatura", "padre"],
-    # "Grupos": tabla retirada del proyecto (§3.5) -> no se procesa.
+    # "Grupos": fuera del proyecto (§3.5) -> grupos.xml ya no se exporta.
 }
 ```
 
-En el Paso 4, `grupo_cod` y `turno` se copian de la matrícula principal de cada alumno
+En el Paso 5, `grupo_cod` y `turno` se copian de la matrícula principal de cada alumno
 (`Alumnos.grupo` / `Alumnos.turno`) a `hecho_matricula` y `hecho_calificacion`.
 
-### 8.7 Resolución de la jerarquía de Cursos (Paso 4)
+### 8.7 Resolución de la jerarquía de Cursos (Paso 5)
 
 ```python
 def resolver_jerarquia(cod, by_cod):
@@ -587,7 +809,7 @@ def fila_dim_curso(cod, by_cod):
 `Alumnos.curso` no apareciera en el árbol de su año, dejar la jerarquía a NULL sin bloquear
 la carga.
 
-### 8.8 `todo_aprobado_flag` (Paso 4 — KPI del cuadro de mando)
+### 8.8 `todo_aprobado_flag` (Paso 5 — KPI del cuadro de mando)
 
 Se calcula por alumno y curso académico, a partir de la **nota final** de cada módulo
 matriculado (no de cada evaluación parcial), para no contar dos veces el mismo módulo:
@@ -636,7 +858,7 @@ def todo_aprobado(alumno_notas):
   calificaciones, matrícula y jerarquía. 2025‑26 se añadirá cuando su export esté completo.
 
 > **Ya no habilitado**: análisis de abandono / bajas y desglose por `tipo_nota`
-> (RA/UF/convocatoria), por eliminarse esos datos en el Paso 3; **ocupación de grupos frente
+> (RA/UF/convocatoria), por eliminarse esos datos en el Paso 4; **ocupación de grupos frente
 > a capacidad** y nombre/aula del grupo, por retirarse `Grupos` (§3.5).
 
 ---
@@ -645,11 +867,12 @@ def todo_aprobado(alumno_notas):
 
 | Paso | Script | Entrada | Salida |
 |---|---|---|---|
-| 3 | `scripts/03_transformar.py` | `data/03_csv/<curso>/*.csv` | `data/04_staging/<curso>/*.csv` (lista blanca + flags) |
-| 4 | `scripts/04_cargar_dw.py` | `data/04_staging/<curso>/*.csv` + catálogos | `data/05_dw/dim_*.csv`, `data/05_dw/hecho_*.csv` |
-| — | Plantillas de catálogo | — | `data/catalogos/dim_nacionalidad.csv`, `dim_pais.csv`, `dim_municipio.csv` (a completar) |
+| 3 | `scripts/03_anonimizar_csv.py` ✅ | `data/03_csv/<curso>/*.csv` | `data/04_anon/<curso>/*.csv` (anonimizado, mismo grano) |
+| 4 | `scripts/04_transformar.py` | `data/04_anon/<curso>/*.csv` | `data/05_staging/<curso>/*.csv` (lista blanca + flags) |
+| 5 | `scripts/05_cargar_dw.py` | `data/05_staging/<curso>/*.csv` + catálogos | `data/06_dw/dim_*.csv`, `data/06_dw/hecho_*.csv` |
+| — | Plantillas de catálogo | — | `data/catalogos/dim_nacionalidad.csv`, `dim_pais.csv`, `dim_municipio.csv` (a completar, con fila "Otros" para el k‑anonimato) |
 | — | `dim_evaluacion` | — | dominio fijo de 4 filas, se genera en código (no es catálogo manual) |
-| 5 | Herramienta de BI | `data/05_dw/dim_*.csv`, `data/05_dw/hecho_*.csv` | Cuadro de mando — KPI, gráfico y filtros de §11 |
+| 6 | Herramienta de BI | `data/06_dw/dim_*.csv`, `data/06_dw/hecho_*.csv` | Cuadro de mando — KPI, gráfico y filtros de §11 |
 
 ### Pendientes de negocio (requieren tu conocimiento)
 
@@ -709,7 +932,7 @@ muestra el código (`1CFSF`), no un nombre descriptivo (ya no hay `dim_grupo`).
 
 Todos los filtros están cubiertos por el modelo de §7.3 **sin `dim_grupo`**: Familia / Grado /
 Curso / Ciclo salen de `dim_curso`, Año de `dim_curso_academico`, y **Turno de la propia
-matrícula**. Solo hace falta que el Paso 4 haga el `UNION` multi‑año para que `Año` tenga
+matrícula**. Solo hace falta que el Paso 5 haga el `UNION` multi‑año para que `Año` tenga
 más de un valor.
 
 ### 11.4 Grano del KPI

@@ -68,21 +68,11 @@ abreviatura
 padre
 
 
-Grupos
-------
-anyo
-fecha_exportacion
-codigo
-nombre
-turno
-modalidad
-aula
-capacidad
-
 
 ## Funcionalidades principales del Flujo
-- Modificar los XML originales para que los datos no sean reconocibles
+- Modificar los XML originales para que los datos no sean reconocibles (Para que los alumnos no recozcan los datos que reciben)
 - Convertir los XML en CSV incluyendo, Año y Fecha de exportacion como campos
+- Hacer un anonimización con los CSV para que los datos no sea reconocibles elige un criterio
 - Eliminar campos del los CSV que no son necesarios
 - Diseñar el esquema del Data Warehouse.
 - Modificar y/o crear los csv que conformam el Data Warehouse
